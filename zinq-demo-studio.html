@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zinq — Estúdio de Vídeo Demonstrativo & Locução Comercial (60-90s + Corte Ads 25s)</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F6F5F2;
+      --surface: #FFFFFF;
+      --ink: #111318;
+      --muted: #5A606D;
+      --border: #E2E0D8;
+      --zinq: #4F46E5;
+      --zinq-dark: #1E1B4B;
+      --green: #15803D;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.5; }
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: #FFFFFF; border-bottom: 1px solid var(--border);
+      padding: 12px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    }
+    .mono { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; }
+    .btn {
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600;
+      padding: 9px 16px; border: 1px solid var(--ink); background: #FFFFFF; color: var(--ink);
+      cursor: pointer; transition: 0.15s;
+    }
+    .btn-primary { background: var(--ink); color: #FFFFFF; }
+    .btn-primary:hover { background: var(--zinq); border-color: var(--zinq); }
+    .wrap { max-width: 1160px; margin: 28px auto; padding: 0 24px 60px; }
+    .card { background: var(--surface); border: 1px solid var(--border); padding: 28px 32px; margin-bottom: 24px; }
+    .grid-2 { display: grid; grid-template-columns: 380px 1fr; gap: 28px; align-items: start; }
+    @media (max-width: 860px) { .grid-2 { grid-template-columns: 1fr; } }
+    .phone-stage {
+      width: 340px; height: 604px; margin: 0 auto;
+      background: #0B0D14; color: #FFFFFF; border: 8px solid #1E202B; border-radius: 28px;
+      position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;
+      padding: 24px 20px; box-shadow: 0 18px 40px rgba(17,19,24,0.16);
+    }
+    .phone-watermark {
+      position: absolute; inset: 0; pointer-events: none; z-index: 20;
+      display: flex; align-items: center; justify-content: center;
+      transform: rotate(-24deg); font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.14);
+      letter-spacing: 0.12em; text-align: center;
+    }
+    .scene-pill {
+      display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px;
+      padding: 4px 9px; background: rgba(79,70,229,0.25); border: 1px solid rgba(129,140,248,0.4); color: #C7D2FE;
+    }
+    .ui-mock {
+      background: #161926; border: 1px solid #2A2F45; border-radius: 12px; padding: 16px; margin: 14px 0;
+      transition: transform 0.35s ease;
+    }
+    .caption-bar {
+      background: rgba(255,255,255,0.96); color: #111318; padding: 12px 14px; border-radius: 10px;
+      font-size: 13.5px; font-weight: 700; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+    .scene-btn {
+      display: block; width: 100%; text-align: left; padding: 12px 14px; margin-bottom: 8px;
+      border: 1px solid var(--border); background: #FAF9F6; cursor: pointer; font-size: 13px;
+    }
+    .scene-btn.active { border-color: var(--zinq); background: #EEF2FF; font-weight: 600; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 14px; }
+    th, td { border-bottom: 1px solid var(--border); padding: 11px 10px; text-align: left; vertical-align: top; }
+    th { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <img src="https://ronfhewvlaxtisyqtlat.supabase.co/storage/v1/object/public/project-images/user-10/logozinqq.png" alt="Zinq" style="height:30px; width:auto; object-fit:contain;" onerror="this.style.display='none'">
+      <div>
+        <div style="font-weight:800; font-size:15px;">ZINQ · ESTÚDIO DE VÍDEO DEMONSTRATIVO & LOCUÇÃO (9:16 FULL HD)</div>
+        <div class="mono" style="color:var(--muted);">Cliente: Vinícius Galdino Soares · VG Tech Solutions (zinqme.com) · Projetos #798678 & #798677</div>
+      </div>
+    </div>
+    <div style="display:flex; gap:10px;">
+      <button class="btn" onclick="playAllScenes()">▶ Simular Preview 9:16 (6 Cenas)</button>
+      <button class="btn btn-primary" onclick="unlockModal()">Liberar Vídeo Final + Projeto Editável (R$ 390)</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <div class="mono" style="color:var(--zinq); font-weight:600; margin-bottom:6px;">01 · DIREÇÃO ESTÉTICA MINIMALISTA SAAS (ESTILO LINEAR / STRIPE / CAL.COM)</div>
+      <h1 style="font-size:23px; font-weight:800; margin-bottom:10px;">Vídeo Principal (75s) + Corte de Anúncio (25s) + Locução Sincronizada</h1>
+      <p style="font-size:14px; color:var(--muted); max-width:900px;">
+        Desenhado especificamente para o ecossistema <strong>Zinq (zinqme.com)</strong>: edição limpa, sem efeitos exagerados, com zooms suaves de câmera (<em>smooth scale easing</em>) destacando a criação de conta em segundos, a página pública de agendamento, a <strong>Taxa Anti-Calote via Pix</strong>, o <strong>Zinq AI 24h</strong>, a <strong>Roleta Logística</strong> e o <strong>Kanban + Chat Interno (Z-Teams)</strong>.
+      </p>
+    </section>
+
+    <section class="card">
+      <div class="grid-2">
+        <!-- SIMULADOR 9:16 -->
+        <div>
+          <div class="phone-stage" id="phone-stage">
+            <div class="phone-watermark">PRÉVIA · ZINQME.COM<br>RENDER FINAL BLOQUEADO</div>
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                <span class="scene-pill" id="st-time">00:00 - 00:12 · CENA 01</span>
+                <span class="mono" style="color:#94A3B8; font-size:10px;">9:16 · 1080x1920</span>
+              </div>
+              <div style="font-size:18px; font-weight:800; line-height:1.25; margin-bottom:8px;" id="st-title">
+                Sua agenda cheia, sem furos e com atendimento por IA 24h.
+              </div>
+              <div style="font-size:12.5px; color:#94A3B8;" id="st-motion">
+                Zoom suave (1.0x → 1.18x) no painel de criação de conta em zinqme.com
+              </div>
+            </div>
+
+            <div class="ui-mock" id="st-mock">
+              <div class="mono" style="font-size:10.5px; color:#818CF8; margin-bottom:6px;">ZINQME.COM · ONBOARDING RÁPIDO</div>
+              <div style="font-size:14px; font-weight:700; margin-bottom:10px;">1. Conta criada em 30 segundos</div>
+              <div style="background:#0F111A; padding:10px; border-radius:8px; font-size:12px; color:#CBD5E1; margin-bottom:8px;">
+                ✓ Link público: <strong>zinqme.com/sua-clinica</strong><br>
+                ✓ Taxa Anti-Calote Pix: <strong>Ativada</strong><br>
+                ✓ Zinq AI 24h: <strong>Respondendo clientes</strong>
+              </div>
+              <div style="background:#4F46E5; color:#FFF; text-align:center; padding:8px; border-radius:6px; font-size:12px; font-weight:700;">
+                Agendamento Confirmado via Pix
+              </div>
+            </div>
+
+            <div>
+              <div class="mono" style="font-size:10px; color:#94A3B8; margin-bottom:6px; text-align:center;">LEGENDA DINÂMICA SINCRONIZADA</div>
+              <div class="caption-bar" id="st-caption">
+                "Criar sua página profissional de agendamentos na Zinq leva menos de dois minutos."
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTROLE DE CENAS E ROTEIRO -->
+        <div>
+          <div class="mono" style="color:var(--muted); margin-bottom:8px;">CLIQUE NAS CENAS PARA INSPECIONAR O STORYBOARD E A LOCUÇÃO SINCRONIZADA:</div>
+          <button class="scene-btn active" onclick="setScene(0, this)">
+            <strong>Cena 01 (00:00–00:12) · Gancho & Criação de Conta Instantânea</strong><br>
+            <span style="color:var(--muted); font-size:12px;">Zoom suave no cadastro limpo da Zinq + ativação imediata do perfil profissional.</span>
+          </button>
+          <button class="scene-btn" onclick="setScene(1, this)">
+            <strong>Cena 02 (00:12–00:28) · Configuração da Agenda & Horários Inteligentes</strong><br>
+            <span style="color:var(--muted); font-size:12px;">Destaque visual nos serviços, intervalos automáticos e personalização com a marca.</span>
+          </button>
+          <button class="scene-btn" onclick="setScene(2, this)">
+            <strong>Cena 03 (00:28–00:44) · Visão do Cliente & Taxa Anti-Calote via Pix</strong><br>
+            <span style="color:var(--muted); font-size:12px;">Cliente escolhe o horário pelo celular em segundos e confirma com sinal automático via Pix.</span>
+          </button>
+          <button class="scene-btn" onclick="setScene(3, this)">
+            <strong>Cena 04 (00:44–01:00) · Zinq AI 24h & Roleta Logística de Atendimento</strong><br>
+            <span style="color:var(--muted); font-size:12px;">IA agendando sozinha à noite + distribuição inteligente para a equipe no milissegundo exato.</span>
+          </button>
+          <button class="scene-btn" onclick="setScene(4, this)">
+            <strong>Cena 05 (01:00–01:15) · Kanban, Chat Interno (Z-Teams) & Chamada Final</strong><br>
+            <span style="color:var(--muted); font-size:12px;">Fechamento sofisticado mostrando o ecossistema completo em zinqme.com + CTA de teste grátis 7 dias.</span>
+          </button>
+
+          <div style="margin-top:20px; padding:18px; background:#FAF9F6; border:1px solid var(--border);">
+            <div class="mono" style="font-weight:600; color:var(--ink); margin-bottom:6px;">ENTREGA UNIFICADA (EDIÇÃO #798678 + LOCUÇÃO #798677):</div>
+            <p style="font-size:13px; color:var(--muted); margin-bottom:10px;">
+              Assim que você nos enviar as gravações de tela da plataforma (e a locução, ou podemos incluir a gravação de locução masculina/feminina de estúdio no pacote), entregamos em até 24h:
+            </p>
+            <ul style="font-size:13px; padding-left:18px; color:var(--ink);">
+              <li><strong>Vídeo Principal 9:16 Full HD (1080x1920, 60–90s)</strong> com zooms suaves, motion minimalista e trilha licenciada;</li>
+              <li><strong>Corte Comercial 9:16 (20–30s)</strong> otimizado para conversão em Reels/TikTok/Meta Ads;</li>
+              <li><strong>Projeto Editável Completo</strong> + 1 rodada de ajustes inclusa.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="mono" style="color:var(--zinq); font-weight:600; margin-bottom:6px;">02 · TABELA TÉCNICA DE TIMECODE, MOTION E LOCUÇÃO</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Timecode</th>
+            <th>Enquadramento & Zoom Suave</th>
+            <th>Texto de Locução / Legenda</th>
+            <th>Elemento de Destaque</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="mono">00:00 - 00:12</td>
+            <td>Zoom in 1.15x no botão "Criar Conta" em <code>zinqme.com</code></td>
+            <td>"Criar sua página profissional e receber agendamentos na Zinq leva menos de dois minutos."</td>
+            <td>Simplicidade de Onboarding</td>
+          </tr>
+          <tr>
+            <td class="mono">00:12 - 00:28</td>
+            <td>Pan suave pela tela de Disponibilidade (<code>AvailabilityPage</code>)</td>
+            <td>"Você define seus horários, serviços e regras de atendimento em um painel limpo e intuitivo."</td>
+            <td>Configuração sem Fricção</td>
+          </tr>
+          <tr>
+            <td class="mono">00:28 - 00:44</td>
+            <td>Foco na página pública (<code>PublicSchedulePage</code>) + Checkout Pix</td>
+            <td>"Seu cliente escolhe o horário direto pelo link, sem precisar baixar nada, e confirma com a taxa anti-calote via Pix."</td>
+            <td>Fim das Faltas (No-Show Zero)</td>
+          </tr>
+          <tr>
+            <td class="mono">00:44 - 01:15</td>
+            <td colspan="3" style="background:#FFFBEB; color:#92400E; font-family:'IBM Plex Mono',monospace; font-size:12px;">
+              [MODO DEMONSTRAÇÃO PROTEGIDO] Timecodes finais (00:44–01:15), curvas de keyframe (After Effects / Premiere / CapCut Pro) e script completo do Corte de Anúncio de 25s são liberados após confirmação do início do projeto.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    const scenes = [
+      {
+        time: "00:00 - 00:12 · CENA 01",
+        title: "Sua agenda cheia, sem furos e com atendimento por IA 24h.",
+        motion: "Zoom suave (1.0x → 1.18x) no painel de criação de conta em zinqme.com",
+        mockTitle: "1. Conta criada em 30 segundos",
+        mockBody: "✓ Link público: <strong>zinqme.com/sua-clinica</strong><br>✓ Taxa Anti-Calote Pix: <strong>Ativada</strong><br>✓ Zinq AI 24h: <strong>Respondendo clientes</strong>",
+        mockBtn: "Agendamento Confirmado via Pix",
+        caption: "Criar sua página profissional de agendamentos na Zinq leva menos de dois minutos."
+      },
+      {
+        time: "00:12 - 00:28 · CENA 02",
+        title: "Configure seus horários e serviços com zero complicação.",
+        motion: "Transição limpa com foco nos blocos de horário e equipe",
+        mockTitle: "2. Agenda Inteligente Configurada",
+        mockBody: "✓ Segunda a Sexta · 08:00 às 19:00<br>✓ Sincronização automática de equipe<br>✓ Página personalizada com sua marca",
+        mockBtn: "Página Pública Online",
+        caption: "Em poucos cliques, você define serviços, profissionais e horários disponíveis."
+      },
+      {
+        time: "00:28 - 00:44 · CENA 03",
+        title: "O cliente agenda sozinho e confirma com Taxa Anti-Calote Pix.",
+        motion: "Zoom suave no modal de confirmação instantânea no celular do cliente",
+        mockTitle: "3. Reserva Blindada contra Faltas",
+        mockBody: "✓ Horário: <strong>Hoje às 16:30</strong><br>✓ Sinal Anti-Calote: <strong>Pago via Pix</strong><br>✓ Lembrete automático enviado no WhatsApp",
+        mockBtn: "Zero No-Show Garantido",
+        caption: "Seu cliente escolhe o melhor horário pelo link e garante a vaga na hora."
+      },
+      {
+        time: "00:44 - 01:00 · CENA 04",
+        title: "Zinq AI 24h + Roleta Logística distribuindo leads no milissegundo.",
+        motion: "Highlight dinâmico no chat de IA agendando cliente às 23h40",
+        mockTitle: "4. Zinq AI & Roleta Comercial",
+        mockBody: "✓ IA tirou dúvidas e agendou às 23:40<br>✓ Lead distribuído por especialidade<br>✓ Histórico salvo no painel da empresa",
+        mockBtn: "Atendimento 24/7 Ativo",
+        caption: "Enquanto sua equipe descansa, a inteligência artificial da Zinq responde e agenda."
+      },
+      {
+        time: "01:00 - 01:15 · CENA 05",
+        title: "Tudo em um só lugar: Agenda, Kanban, Gamificação e Z-Teams.",
+        motion: "Pull-back revelando o ecossistema completo + CTA Teste Grátis 7 Dias",
+        mockTitle: "5. Ecossistema Zinq Completo",
+        mockBody: "✓ Kanban Visual de Projetos<br>✓ Chat Corporativo Interno (Z-Teams)<br>✓ Teste Grátis de 7 Dias Premium",
+        mockBtn: "Acesse zinqme.com agora",
+        caption: "Simplifique sua rotina e eleve o nível da sua operação. Crie sua conta grátis na Zinq."
+      }
+    ];
+
+    function setScene(idx, btnEl) {
+      const s = scenes[idx];
+      document.getElementById("st-time").innerText = s.time;
+      document.getElementById("st-title").innerText = s.title;
+      document.getElementById("st-motion").innerText = s.motion;
+      document.getElementById("st-mock").innerHTML =
+        '<div class="mono" style="font-size:10.5px; color:#818CF8; margin-bottom:6px;">ZINQME.COM · PREVIEW 9:16</div>' +
+        '<div style="font-size:14px; font-weight:700; margin-bottom:10px;">' + s.mockTitle + '</div>' +
+        '<div style="background:#0F111A; padding:10px; border-radius:8px; font-size:12px; color:#CBD5E1; margin-bottom:8px;">' + s.mockBody + '</div>' +
+        '<div style="background:#4F46E5; color:#FFF; text-align:center; padding:8px; border-radius:6px; font-size:12px; font-weight:700;">' + s.mockBtn + '</div>';
+      document.getElementById("st-caption").innerText = s.caption;
+      document.querySelectorAll(".scene-btn").forEach((b, i) => {
+        b.classList.toggle("active", i === idx);
+      });
+    }
+
+    let playIdx = 0;
+    let playTimer = null;
+    function playAllScenes() {
+      clearInterval(playTimer);
+      playIdx = 0;
+      const btns = document.querySelectorAll(".scene-btn");
+      setScene(0, btns[0]);
+      playTimer = setInterval(() => {
+        playIdx = (playIdx + 1) % scenes.length;
+        setScene(playIdx, btns[playIdx]);
+      }, 2400);
+    }
+
+    function unlockModal() {
+      alert("Liberação do Pacote Completo Zinq (Vídeo 90s Full HD + Corte Anúncio 25s + Projeto Editável):\n\nValor fechado: R$ 390,00 (pode ser 50% no envio das gravações de tela e 50% na entrega final).\nChave Pix: 0d698c3a-7f75-418e-9d09-6be18fb9a718 (Marco Aurélio Sugamele)");
+    }
+  </script>
+  
+<!-- STUDIO IP PROTECTION SHIELD -->
+<style id="studio-ip-shield-css">
+  body:not(.studio-unlocked) {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+  }
+  @media print {
+    body:not(.studio-unlocked) {
+      display: none !important;
+    }
+  }
+  .ip-watermark-badge {
+    position: fixed;
+    bottom: 14px;
+    left: 14px;
+    z-index: 99998;
+    background: rgba(20, 20, 19, 0.92);
+    color: #F6F5F2;
+    font-family: 'IBM Plex Mono', monospace, sans-serif;
+    font-size: 11px;
+    padding: 6px 12px;
+    border: 1px solid rgba(255,255,255,0.18);
+    letter-spacing: 0.04em;
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  }
+  body.studio-unlocked .ip-watermark-badge {
+    display: none !important;
+  }
+  #ip-shield-toast {
+    position: fixed;
+    top: 68px;
+    right: 20px;
+    z-index: 99999;
+    background: #141413;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-size: 12.5px;
+    padding: 12px 16px;
+    border-left: 3px solid #D97706;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    display: none;
+    max-width: 340px;
+    line-height: 1.45;
+  }
+</style>
+<div class="ip-watermark-badge">MODO DEMONSTRAÇÃO PROTEGIDO · CÓPIA E EXPORTAÇÃO BLOQUEADAS</div>
+<div id="ip-shield-toast">
+  <strong>Conteúdo Protegido (Modo Homologação)</strong><br>
+  A cópia de código/textos e a exportação dos arquivos finais são liberadas imediatamente após a confirmação do projeto via Pix.
+</div>
+<script id="studio-ip-shield-js">
+(function(){
+  if (location.search.includes("unlock=STUDIO-2026")) {
+    document.body.classList.add("studio-unlocked");
+    return;
+  }
+  var toastTimer = null;
+  function showIpToast() {
+    var el = document.getElementById("ip-shield-toast");
+    if (!el) return;
+    el.style.display = "block";
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ el.style.display = "none"; }, 3200);
+  }
+  document.addEventListener("contextmenu", function(e){
+    if (!document.body.classList.contains("studio-unlocked")) {
+      e.preventDefault();
+      showIpToast();
+    }
+  });
+  document.addEventListener("copy", function(e){
+    if (!document.body.classList.contains("studio-unlocked")) {
+      e.preventDefault();
+      if (e.clipboardData) {
+        e.clipboardData.setData("text/plain", "Material em modo de demonstração protegido. Liberado após confirmação do projeto.");
+      }
+      showIpToast();
+    }
+  });
+  document.addEventListener("cut", function(e){
+    if (!document.body.classList.contains("studio-unlocked")) {
+      e.preventDefault();
+      showIpToast();
+    }
+  });
+  document.addEventListener("keydown", function(e){
+    if (document.body.classList.contains("studio-unlocked")) return;
+    var k = (e.key || "").toLowerCase();
+    if ((e.ctrlKey || e.metaKey) && (k === "c" || k === "u" || k === "s" || k === "p" || k === "a")) {
+      e.preventDefault();
+      showIpToast();
+    }
+    if (e.key === "F12" || (e.ctrlKey && e.shiftKey && (k === "i" || k === "j" || k === "c"))) {
+      e.preventDefault();
+      showIpToast();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
