@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pet Model Brasil — Caderno de Arquitetura Supabase & Plano de Migração (2.000 Perfis)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #F6F5F2;
+      --surface: #FFFFFF;
+      --ink: #18181B;
+      --muted: #52525B;
+      --border: #E4E4E7;
+      --pmb-coral: #EA545E;
+      --pmb-green: #15803D;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.55;
+      padding-top: 60px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .mono { font-family: 'IBM Plex Mono', monospace; }
+
+    #topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 9000;
+    }
+    .tb-tag {
+      background: var(--pmb-coral);
+      color: #FFFFFF;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 9px;
+    }
+    .btn {
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .btn-dark {
+      background: var(--ink);
+      color: #FFFFFF;
+      border-color: var(--ink);
+    }
+
+    .wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 36px 24px 88px;
+    }
+    .doc-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      margin-bottom: 28px;
+    }
+    .doc-head {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      background: #FAFAFA;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .doc-body {
+      padding: 28px 24px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 880px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #F4F4F5;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    pre {
+      background: #18181B;
+      color: #E4E4E7;
+      padding: 20px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      overflow-x: auto;
+      border-radius: 2px;
+    }
+    .status-ok {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--pmb-green);
+      background: #DCFCE7;
+      padding: 2px 7px;
+    }
+    .status-req {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      color: #B45309;
+      background: #FEF3C7;
+      padding: 2px 7px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="topbar">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <span class="tb-tag">PET MODEL BRASIL · DOC ARQUITETURA #PMB-2026</span>
+      <span class="mono" style="font-size:12px; color:var(--muted);">Auditoria Pré-Migração · PHP/MySQL (2.000 Perfis) → Lovable + Supabase + Vercel + Stripe</span>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <button class="btn" onclick="copySql(this)">Copiar Schema SQL (Supabase)</button>
+      <button class="btn btn-dark" onclick="window.print()">Exportar Relatório PDF</button>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <!-- 1. SUMÁRIO EXECUTIVO -->
+    <section class="doc-box">
+      <div class="doc-head">
+        <span class="mono" style="font-size:11.5px; font-weight:600; color:var(--pmb-coral);">01 · ESCOPO DE HOMOLOGAÇÃO PRÉ-MIGRAÇÃO</span>
+        <span class="mono" style="font-size:11.5px; color:var(--muted);">Cliente: Deborah Zeigelboim · Pet Model Brasil</span>
+      </div>
+      <div class="doc-body">
+        <h1 style="font-size:24px; font-weight:700; margin-bottom:10px;">
+          Plano de Arquitetura Definitiva & Consolidação Técnica (Lovable ↔ Supabase)
+        </h1>
+        <p style="font-size:14px; color:var(--muted); max-width:920px; margin-bottom:20px;">
+          Este documento consolida a estrutura relacional definitiva no <strong>Supabase (PostgreSQL + RLS + Storage)</strong>, o mapeamento de dependências com o frontend gerado no <strong>Lovable (React/Vite/Tailwind)</strong> hospedado na <strong>Vercel</strong> e o protocolo seguro de migração dos <strong>~2.000 perfis ativos do sistema legado em PHP/MySQL</strong> sem perda de mídias, vínculos de tutores ou quebras de layout.
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Módulo / Requisito Funcional</th>
+              <th>Risco Comum no Lovable</th>
+              <th>Solução Definitiva Antes da Migração</th>
+              <th>Criticidade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. Relação Tutor (1:N) Múltiplos Pets</strong></td>
+              <td>Frontend no Lovable frequentemente vincula campos do animal direto na tabela de perfil único do usuário.</td>
+              <td>Separação estrita entre <code>public.tutors</code> (vinculado a <code>auth.users</code>) e <code>public.pets</code> (chave estrangeira <code>tutor_id</code>), permitindo N animais por conta com seleção rápida no painel do tutor.</td>
+              <td><span class="status-req">BLOQUEANTE P/ MIGRAÇÃO</span></td>
+            </tr>
+            <tr>
+              <td><strong>2. Campos por Espécie, Raça Padronizada e Comportamento</strong></td>
+              <td>Campos livres em texto geram inconsistência nos filtros de casting ("Golden", "Golden Retriever", "golden").</td>
+              <td>Tabela normalizada <code>species_breeds</code> + JSONB tipado <code>physical_traits</code> (cor pelagem, olhos, peso, porte, medidas) + array indexado GIN para temperamento e sociabilidade entre espécies.</td>
+              <td><span class="status-req">BLOQUEANTE P/ MIGRAÇÃO</span></td>
+            </tr>
+            <tr>
+              <td><strong>3. Habilidades (Comandos) com Vídeos + Fotos Categorizadas</strong></td>
+              <td>Upload direto sem políticas de bucket no Supabase Storage ou URLs antigas quebradas do WordPress/PHP.</td>
+              <td>Buckets separados (<code>pet-photos</code> e <code>pet-skill-videos</code>) com tabela <code>pet_media</code> categorizada (<em>Perfil, Corpo Inteiro, Ação, Estúdio</em>) e coluna <code>legacy_mysql_id</code> para reconciliação.</td>
+              <td><span class="status-req">BLOQUEANTE P/ MIGRAÇÃO</span></td>
+            </tr>
+            <tr>
+              <td><strong>4. Influência Digital & Privacidade (RLS)</strong></td>
+              <td>Exposição pública no frontend de dados sensíveis do tutor (telefone, CPF, endereço, métricas privadas).</td>
+              <td>View pública filtrada (<code>public_casting_catalog</code>) + Row Level Security (RLS) garantindo que apenas <code>role = 'admin'</code> (equipe Pet Model Brasil) e o próprio tutor leiam dados de contato.</td>
+              <td><span class="status-req">CRÍTICO (LGPD)</span></td>
+            </tr>
+            <tr>
+              <td><strong>5. Planos, Assinaturas Stripe & Lembretes</strong></td>
+              <td>Webhook do Stripe processado no cliente ou desatualizado após renovação/cancelamento.</td>
+              <td>Supabase Edge Function <code>stripe-webhook</code> sincronizando <code>subscriptions</code> + Cron Job (<code>pg_cron</code>) disparando alerta de atualização cadastral a cada 90 dias (especialmente filhotes).</td>
+              <td><span class="status-ok">PRONTO NO SCHEMA</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 2. SCHEMA SQL DEFINITIVO SUPABASE -->
+    <section class="doc-box">
+      <div class="doc-head">
+        <span class="mono" style="font-size:11.5px; font-weight:600; color:var(--pmb-coral);">02 · ESTRUTURA DEFINITIVA DO BANCO DE DADOS (POSTGRESQL / SUPABASE MIGRATION)</span>
+        <span class="mono" style="font-size:11.5px; color:var(--muted);">Compatível com Lovable + Supabase Auth + Stripe + Migração PHP/MySQL</span>
+      </div>
+      <div class="doc-body">
+<pre id="sql-block">-- ============================================================================
+-- PET MODEL BRASIL — SCHEMA DEFINITIVO SUPABASE (PRÉ-MIGRAÇÃO 2.000 PERFIS)
+-- ============================================================================
+
+CREATE TYPE user_role AS ENUM ('tutor', 'admin', 'casting_producer');
+CREATE TYPE pet_species AS ENUM ('dog', 'cat', 'exotic', 'bird', 'equine', 'other');
+CREATE TYPE media_category AS ENUM ('headshot', 'full_body', 'side_profile', 'action', 'skill_video', 'studio');
+
+-- 1. TABELA DE TUTORES (1 Tutor -> N Pets)
+CREATE TABLE public.tutors (
+  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  legacy_user_id INT UNIQUE, -- ID original no sistema PHP/MySQL para rastreabilidade
+  role user_role NOT NULL DEFAULT 'tutor',
+  full_name TEXT NOT NULL,
+  cpf_cnpj TEXT,
+  phone_whatsapp TEXT NOT NULL,
+  city TEXT NOT NULL,
+  state CHAR(2) NOT NULL,
+  zip_code TEXT,
+  terms_accepted_at TIMESTAMPTZ,
+  terms_version TEXT DEFAULT '2026-v1',
+  stripe_customer_id TEXT UNIQUE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- 2. CATÁLOGO PADRONIZADO DE ESPÉCIES E RAÇAS (Evita duplicidade no filtro de Casting)
+CREATE TABLE public.species_breeds (
+  id SERIAL PRIMARY KEY,
+  species pet_species NOT NULL,
+  breed_name TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL
+);
+
+-- 3. TABELA PRINCIPAL DE PETS (Com suporte a Características Físicas, Comportamento e Influência)
+CREATE TABLE public.pets (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  legacy_pet_id INT UNIQUE, -- Chave de conciliação dos 2.000 perfis do MySQL
+  tutor_id UUID NOT NULL REFERENCES public.tutors(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  species pet_species NOT NULL,
+  breed_id INT REFERENCES public.species_breeds(id),
+  birth_date DATE,
+  gender TEXT CHECK (gender IN ('M', 'F')),
+  neutered BOOLEAN DEFAULT FALSE,
+  size_category TEXT CHECK (size_category IN ('mini', 'pequeno', 'medio', 'grande', 'gigante')),
+  weight_kg NUMERIC(5,2),
+  coat_color TEXT,
+  coat_length TEXT,
+  eye_color TEXT,
+  -- Comportamento e Compatibilidade entre Espécies
+  temperament_tags TEXT[] DEFAULT '{}', -- ex: {'docil','sociavel_caes','sociavel_gatos','acostumado_estudio'}
+  coexists_with_species pet_species[] DEFAULT '{}',
+  -- Influência Digital (Com controle de privacidade via RLS)
+  instagram_handle TEXT,
+  tiktok_handle TEXT,
+  followers_count INT DEFAULT 0,
+  show_social_publicly BOOLEAN DEFAULT FALSE,
+  -- Controle de Casting e Assinatura
+  profile_status TEXT NOT NULL DEFAULT 'pending_review' CHECK (profile_status IN ('draft', 'pending_review', 'active', 'archived')),
+  last_profile_Confirmed_at TIMESTAMPTZ DEFAULT NOW(),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- 4. HABILIDADES E COMANDOS COM VÍDEOS DEMONSTRATIVOS
+CREATE TABLE public.pet_skills (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  pet_id UUID NOT NULL REFERENCES public.pets(id) ON DELETE CASCADE,
+  skill_name TEXT NOT NULL, -- ex: 'Senta', 'Fica', 'Deita', 'Rola', 'Pega objeto', 'Late sob comando'
+  proficiency_level TEXT CHECK (proficiency_level IN ('basico', 'intermediario', 'avancado_set')),
+  demo_video_url TEXT, -- URL no bucket Supabase Storage 'pet-skill-videos'
+  verified_by_admin BOOLEAN DEFAULT FALSE
+);
+
+-- 5. FOTOS E MÍDIAS ORGANIZADAS POR CATEGORIA
+CREATE TABLE public.pet_media (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  pet_id UUID NOT NULL REFERENCES public.pets(id) ON DELETE CASCADE,
+  category media_category NOT NULL,
+  storage_path TEXT NOT NULL,
+  public_url TEXT NOT NULL,
+  is_cover BOOLEAN DEFAULT FALSE,
+  sort_order INT DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- 6. PLANOS E ASSINATURAS (INTEGRAÇÃO STRIPE)
+CREATE TABLE public.subscriptions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  tutor_id UUID NOT NULL REFERENCES public.tutors(id) ON DELETE CASCADE,
+  stripe_subscription_id TEXT UNIQUE,
+  plan_tier TEXT NOT NULL, -- 'free', 'pro_model', 'vip_agency'
+  status TEXT NOT NULL, -- 'active', 'past_due', 'canceled'
+  current_period_end TIMESTAMPTZ
+);
+
+-- Índices para Busca Instantânea no Painel de Casting Admin
+CREATE INDEX idx_pets_species_breed ON public.pets(species, breed_id, size_category, profile_status);
+CREATE INDEX idx_pets_temperament ON public.pets USING GIN(temperament_tags);
+CREATE INDEX idx_pets_skills_pet_id ON public.pet_skills(pet_id);</pre>
+      </div>
+    </section>
+
+    <!-- 3. PROTOCOLO DE MIGRAÇÃO DOS 2.000 PERFIS E DEPENDÊNCIAS -->
+    <section class="doc-box">
+      <div class="doc-head">
+        <span class="mono" style="font-size:11.5px; font-weight:600; color:var(--pmb-coral);">03 · MAPA DE DEPENDÊNCIAS (LOVABLE · GITHUB · SUPABASE · VERCEL) & PLANO DE TESTES</span>
+        <span class="mono" style="font-size:11.5px; color:var(--muted);">Zero Perda de Dados · Rollback Seguro</span>
+      </div>
+      <div class="doc-body grid-2">
+        <div>
+          <h3 style="font-size:16px; font-weight:700; margin-bottom:10px;">Fluxo de Sincronização Sem Quebrar o Lovable</h3>
+          <p style="font-size:13.5px; color:var(--muted); margin-bottom:12px;">
+            Como o <strong>Lovable</strong> sincroniza via repositório <strong>GitHub</strong> em commits bidirecionais, qualquer alteração estrutural deve respeitar esta ordem:
+          </p>
+          <ol style="font-size:13.5px; color:var(--ink); padding-left:18px; line-height:1.7;">
+            <li><strong>Congelamento de Schema no Supabase:</strong> Aplicar as migrations SQL acima e gerar os tipos TypeScript (<code>supabase gen types typescript</code>) commitando em <code>src/integrations/supabase/types.ts</code>.</li>
+            <li><strong>Variáveis na Vercel:</strong> Validar <code>VITE_SUPABASE_URL</code>, <code>VITE_SUPABASE_ANON_KEY</code> e configurar os Secrets do Stripe (<code>STRIPE_SECRET_KEY</code>, <code>STRIPE_WEBHOOK_SECRET</code>) exclusivamente nas <em>Edge Functions</em> do Supabase.</li>
+            <li><strong>Dry-Run de Migração (Lote Piloto de 50 Perfis):</strong> Script Node.js lê o dump MySQL antigo, higieniza telefones/raças, copia as fotos de <code>wp-content/uploads</code> para o Supabase Storage e preenche <code>legacy_pet_id</code>.</li>
+          </ol>
+        </div>
+        <div>
+          <h3 style="font-size:16px; font-weight:700; margin-bottom:10px;">Critérios de Aceite (Homologação Antes da Virada)</h3>
+          <ul style="font-size:13.5px; color:var(--ink); padding-left:18px; line-height:1.7;">
+            <li><strong>Teste 01 (Multi-Pet por Tutor):</strong> Criar 1 tutor e cadastrar 1 cão + 1 gato + 1 ave com campos específicos de cada espécie sem colisão de estado.</li>
+            <li><strong>Teste 02 (Upload de Vídeo de Habilidade):</strong> Subir vídeo MP4/MOV de até 50MB atrelado a uma habilidade específica e reproduzir no painel Admin de Casting.</li>
+            <li><strong>Teste 03 (Auditoria RLS / Privacidade):</strong> Garantir que uma requisição anônima à API do Supabase retorne apenas nome artístico, fotos e medidas do pet, ocultando 100% do telefone, CPF e endereço do tutor.</li>
+            <li><strong>Teste 04 (Batimento 2.000 Perfis):</strong> <code>SELECT COUNT(*) FROM pets WHERE legacy_pet_id IS NOT NULL</code> idêntico ao total ativo no MySQL legado.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function copySql(btn) {
+      navigator.clipboard.writeText(document.getElementById("sql-block").innerText);
+      const old = btn.innerText;
+      btn.innerText = "Schema SQL Copiado!";
+      setTimeout(() => btn.innerText = old, 1800);
+    }
+  </script>
+</body>
+</html>
