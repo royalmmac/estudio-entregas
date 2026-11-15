@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSM — Hackeando Smart Money | Educação Financeira, ZII & Salas Operacionais</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --forest-deep: #001E18;
+      --charcoal: #141414;
+      --teal: #16A085;
+      --teal-bright: #23E1BB;
+      --gold: #EFD344;
+      --lime: #E7FB02;
+      --white: #FFFFFF;
+      --offwhite: #F5F7F6;
+      --text-dark: #1A1A1A;
+      --text-muted: #525866;
+      --border-light: #E2E8F0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Roboto', sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.55;
+      padding-top: 48px;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: -0.02em;
+    }
+
+    /* Discreet Studio Handoff Bar */
+    #handoff-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 48px;
+      z-index: 9500;
+      background: #111111;
+      color: #E5E5E5;
+      border-bottom: 1px solid #2A2A2A;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12.5px;
+    }
+    .hb-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .hb-dot {
+      width: 8px; height: 8px;
+      background: var(--teal-bright);
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .hb-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hb-btn {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 3px;
+      cursor: pointer;
+      border: 1px solid #3A3A3A;
+      background: #1F1F1F;
+      color: #FFFFFF;
+    }
+    .hb-btn.active-cms {
+      background: var(--gold);
+      color: #111111;
+      border-color: var(--gold);
+    }
+    .hb-btn-buy {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #FFFFFF;
+    }
+    body.unlocked #handoff-bar { display: none !important; }
+    body.unlocked { padding-top: 0; }
+
+    /* Main Institutional Header */
+    header {
+      background: var(--forest-deep);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky;
+      top: 48px;
+      z-index: 1000;
+    }
+    body.unlocked header { top: 0; }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .nav-wrap {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .hsm-logo {
+      height: 44px;
+      width: auto;
+      display: block;
+    }
+    nav {
+      display: flex;
+      gap: 24px;
+    }
+    nav a {
+      color: rgba(255,255,255,0.82);
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      transition: color 0.15s;
+    }
+    nav a:hover { color: var(--gold); }
+    .btn {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 13px 24px;
+      border-radius: 4px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.12s, opacity 0.12s;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-teal {
+      background: var(--teal);
+      color: #FFFFFF;
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: #141414;
+    }
+    .btn-outline-white {
+      background: transparent;
+      color: #FFFFFF;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    /* Section 1: Hero (Dark Institutional Forest with Real Gabriel Pelissaro Photo) */
+    .hero {
+      background: linear-gradient(135deg, #001E18 0%, #072A22 55%, #0D1412 100%);
+      color: #FFFFFF;
+      padding: 64px 0 0;
+      overflow: hidden;
+      border-bottom: 4px solid var(--teal);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 36px;
+      align-items: end;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      border-left: 3px solid var(--gold);
+      padding-left: 10px;
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-size: clamp(30px, 4vw, 46px);
+      font-weight: 800;
+      line-height: 1.12;
+      margin-bottom: 18px;
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero p {
+      font-size: 16.5px;
+      color: rgba(255,255,255,0.82);
+      margin-bottom: 28px;
+      max-width: 560px;
+    }
+    .hero-cta-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 24px 0 44px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+    .metric-val {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--teal-bright);
+    }
+    .metric-lbl {
+      font-size: 12px;
+      color: rgba(255,255,255,0.68);
+    }
+    .hero-photo-wrap {
+      text-align: right;
+    }
+    .hero-photo-wrap img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin-left: auto;
+    }
+
+    /* Section 2: Sala Premium & Planos (Light Editorial Section — White & Offwhite) */
+    .sec-light {
+      background: var(--offwhite);
+      padding: 84px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .sec-white {
+      background: var(--white);
+      padding: 84px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .sec-dark {
+      background: var(--charcoal);
+      color: #FFFFFF;
+      padding: 84px 0;
+    }
+    .sec-header {
+      max-width: 720px;
+      margin-bottom: 48px;
+    }
+    .sec-kicker {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+    .sec-title {
+      font-size: clamp(24px, 3vw, 34px);
+      font-weight: 800;
+      line-height: 1.18;
+      margin-bottom: 12px;
+    }
+
+    /* Official HSM Product Cards + Pricing Plans */
+    .visual-showcase {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .visual-showcase img {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      display: block;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .plan-box {
+      background: #FFFFFF;
+      border: 1px solid #D8E0DC;
+      border-radius: 4px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .plan-box.featured {
+      border: 2px solid var(--forest-deep);
+      box-shadow: 0 12px 32px rgba(0, 30, 24, 0.08);
+      position: relative;
+    }
+    .plan-badge {
+      position: absolute;
+      top: -12px;
+      left: 24px;
+      background: var(--gold);
+      color: #141414;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      text-transform: uppercase;
+    }
+    .plan-price {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--forest-deep);
+      margin: 14px 0 18px;
+    }
+    .plan-price small {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+    .plan-list {
+      list-style: none;
+      margin-bottom: 24px;
+      font-size: 14px;
+      color: #2D3748;
+    }
+    .plan-list li {
+      padding: 7px 0;
+      border-bottom: 1px solid #EDF2F7;
+    }
+
+    /* Section 3: Estratégia ZII (Zona do Inventário Institucional) */
+    .split-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .split-2 img {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      display: block;
+    }
+    .step-item {
+      border-left: 3px solid var(--teal);
+      padding-left: 18px;
+      margin-bottom: 20px;
+    }
+    .step-item h4 {
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+    .step-item p {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* CMS Editable Highlight */
+    body.cms-mode [contenteditable="true"] {
+      outline: 2px dashed var(--teal);
+      outline-offset: 4px;
+      cursor: text;
+    }
+
+    @media (max-width: 920px) {
+      .hero-grid, .visual-showcase, .plans-grid, .split-2 { grid-template-columns: 1fr; }
+      nav { display: none; }
+      #handoff-bar { height: auto; padding: 10px 16px; flex-wrap: wrap; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Studio Handoff Bar -->
+  <div id="handoff-bar">
+    <div class="hb-left">
+      <span class="hb-dot"></span>
+      <span><strong>HSM · HOMOLOGAÇÃO DE NOVO PORTAL</strong> · 7 Seções + Checkouts Lastlink Ativos + Editor Visual</span>
+    </div>
+    <div class="hb-actions">
+      <button class="hb-btn" id="cms-btn" onclick="toggleCms()">Ativar Edição de Textos (CMS)</button>
+      <button class="hb-btn" onclick="unlockHsm()">Inserir Chave</button>
+      <button class="hb-btn hb-btn-buy" onclick="openHsmPix()">Receber Código-Fonte + Domínio · R$ 450</button>
+    </div>
+  </div>
+
+  <!-- Official HSM Header with Real Logo -->
+  <header>
+    <div class="container nav-wrap">
+      <img class="hsm-logo" src="https://files.greatpages.com.br/images/404092/3OURaGdWpDJ93W59DbkakjWY.webp" alt="HSM — Hackeando Smart Money">
+      <nav>
+        <a href="#inicio">Início</a>
+        <a href="#sala-premium">Sala Premium</a>
+        <a href="#metodo-zii">Estratégia ZII</a>
+        <a href="#cursos">Cursos</a>
+        <a href="#mentorias">Mentorias</a>
+        <a href="#sobre">Sobre a HSM</a>
+        <a href="#contato">Contato</a>
+      </nav>
+      <a href="https://lastlink.com/p/CE5CE55E3/checkout-payment" target="_blank" class="btn btn-gold" style="padding:10px 18px; font-size:12px;">Entrar na Sala Ao Vivo</a>
+    </div>
+  </header>
+
+  <!-- 1. HERO (Real Gabriel Pelissaro Photo + Institutional Forest Palette) -->
+  <section class="hero" id="inicio">
+    <div class="container hero-grid">
+      <div>
+        <span class="hero-tag" contenteditable="false">Smart Money Concepts · Zona do Inventário Institucional</span>
+        <h1 contenteditable="false">Pare de ser a liquidez do varejo. Opere junto com os <span>Grandes Bancos</span>.</h1>
+        <p contenteditable="false">
+          Aprenda a rastrear a Zona do Inventário Institucional (ZII) e opere Criptoativos, Forex e Índices ao vivo todos os dias ao lado de <strong>Gabriel Pelissaro</strong> e da comunidade oficial <strong>HSM</strong>.
+        </p>
+        <div class="hero-cta-row">
+          <a href="#sala-premium" class="btn btn-gold">Acessar Sala de Sinais & Operações</a>
+          <a href="#metodo-zii" class="btn btn-outline-white">Conhecer a Estratégia ZII</a>
+        </div>
+        <div class="hero-metrics">
+          <div>
+            <div class="metric-val" contenteditable="false">Seg a Sex</div>
+            <div class="metric-lbl">Pregão e Sala Operacional Ao Vivo</div>
+          </div>
+          <div>
+            <div class="metric-val" contenteditable="false">ZII + SMC</div>
+            <div class="metric-lbl">Rastreio de Liquidez Institucional</div>
+          </div>
+          <div>
+            <div class="metric-val" contenteditable="false">100% Real</div>
+            <div class="metric-lbl">Gestão de Risco e Assimetria</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-photo-wrap">
+        <img src="https://files.greatpages.com.br/images/404092/i2tDTTAbITJoUii9frbro943.webp" alt="Gabriel Pelissaro — HSM Hackeando Smart Money">
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. SALA PREMIUM & PLANOS LASTLINK (With Real HSM Visual Cards) -->
+  <section class="sec-light" id="sala-premium">
+    <div class="container">
+      <div class="sec-header">
+        <div class="sec-kicker">Ecossistema Operacional HSM</div>
+        <h2 class="sec-title" contenteditable="false">Sala Premium Ao Vivo & Sinais Institucionais</h2>
+        <p style="color:var(--text-muted);" contenteditable="false">
+          Acesso direto às análises diárias de fluxo institucional, marcações de liquidez e acompanhamento de carteira junto com Gabriel Pelissaro.
+        </p>
+      </div>
+
+      <div class="visual-showcase">
+        <img src="https://files.greatpages.com.br/images/404092/f2WJojjstVRY1AsmaEHUjTIm.webp" alt="HSM Módulo 1">
+        <img src="https://files.greatpages.com.br/images/404092/leWhnICxkcUxOaWGaPW5uGxV.webp" alt="HSM Módulo 2">
+        <img src="https://files.greatpages.com.br/images/404092/l9OOG3Howma3pv5uMUVzKvjO.webp" alt="HSM Módulo 3">
+      </div>
+
+      <div class="plans-grid">
+        <div class="plan-box">
+          <div>
+            <div class="sec-kicker">Acesso Mensal</div>
+            <h3 contenteditable="false">Sala HSM — Plano Mensal</h3>
+            <div class="plan-price" contenteditable="false">R$ 197 <small>/mês</small></div>
+            <ul class="plan-list">
+              <li>Sala de Operações Ao Vivo (Segunda a Sexta)</li>
+              <li>Alertas de Entradas com Alvo e Stop Técnico</li>
+              <li>Rastreamento de Carteira Cripto & Forex</li>
+              <li>Acesso ao Grupo Oficial de Membros</li>
+            </ul>
+          </div>
+          <a href="https://lastlink.com/p/C27FF2C57/checkout-payment" target="_blank" class="btn btn-teal" style="width:100%;">Assinar Plano Mensal</a>
+        </div>
+
+        <div class="plan-box featured">
+          <span class="plan-badge">Mais Escolhido</span>
+          <div>
+            <div class="sec-kicker">Acesso Trimestral</div>
+            <h3 contenteditable="false">Sala HSM + Formação ZII</h3>
+            <div class="plan-price" contenteditable="false">R$ 397 <small>/trimestre</small></div>
+            <ul class="plan-list">
+              <li>Tudo do Plano Mensal com desconto</li>
+              <li>Módulo Estratégia ZII (Zona do Inventário)</li>
+              <li>Planilha Institucional de Gestão de Risco</li>
+              <li>Suporte prioritário para dúvidas operacionais</li>
+            </ul>
+          </div>
+          <a href="https://lastlink.com/p/CE5CE55E3/checkout-payment" target="_blank" class="btn btn-gold" style="width:100%;">Garantir Vaga Trimestral</a>
+        </div>
+
+        <div class="plan-box">
+          <div>
+            <div class="sec-kicker">Passaporte Completo</div>
+            <h3 contenteditable="false">HSM Anual + Mentoria</h3>
+            <div class="plan-price" contenteditable="false">12x R$ 97 <small>/ano</small></div>
+            <ul class="plan-list">
+              <li>12 Meses de Sala Operacional Ao Vivo</li>
+              <li>Formação Completa Smart Money Concepts</li>
+              <li>Encontros fechados de revisão de carteira</li>
+              <li>Acesso direto aos radares institucionais</li>
+            </ul>
+          </div>
+          <a href="https://lastlink.com/p/CD1001743/checkout-payment" target="_blank" class="btn btn-teal" style="width:100%;">Assinar Passaporte Anual</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ESTRATÉGIA ZII (ZONA DO INVENTÁRIO INSTITUCIONAL) -->
+  <section class="sec-white" id="metodo-zii">
+    <div class="container split-2">
+      <div>
+        <div class="sec-kicker">Metodologia Proprietária</div>
+        <h2 class="sec-title" contenteditable="false">A Estratégia ZII — Zona do Inventário Institucional</h2>
+        <p style="color:var(--text-muted); margin-bottom:24px;" contenteditable="false">
+          Enquanto 95% das pessoas físicas operam figuras gráficas atrasadas que servem de contraparte para os algoritmos bancários, a metodologia ZII identifica exatamente onde o Smart Money acumula e distribui posições.
+        </p>
+        <div class="step-item">
+          <h4 contenteditable="false">1. Mapeamento da Piscina de Liquidez (BSL / SSL)</h4>
+          <p contenteditable="false">Identificação das zonas onde o varejo posiciona stops previsíveis que serão capturados pelo institucional.</p>
+        </div>
+        <div class="step-item">
+          <h4 contenteditable="false">2. Captura de Liquidez e Deslocamento (CHoCH / BOS)</h4>
+          <p contenteditable="false">Confirmação da agressão institucional real antes de posicionar qualquer ordem a favor da tendência.</p>
+        </div>
+        <div class="step-item">
+          <h4 contenteditable="false">3. Execução Assimetria 1:3 a 1:6 na Mitigação</h4>
+          <p contenteditable="false">Entrada cirúrgica no retorno ao Order Block / Fair Value Gap com risco estritamente controlado.</p>
+        </div>
+      </div>
+      <div>
+        <img src="https://files.greatpages.com.br/images/404092/Er9kpnZ2upxroKm2Ls3Khe3J.webp" alt="Estratégia ZII — HSM">
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 & 5. CURSOS E MENTORIAS -->
+  <section class="sec-dark" id="cursos">
+    <div class="container">
+      <div class="sec-header">
+        <div class="sec-kicker" style="color:var(--gold);">Formação & Acompanhamento Individual</div>
+        <h2 class="sec-title" contenteditable="false">Cursos Estruturados & Mentoria Executiva HSM</h2>
+      </div>
+      <div class="split-2" id="mentorias">
+        <div style="background:#1F1F1F; padding:32px; border-left:4px solid var(--teal);">
+          <div class="sec-kicker" style="color:var(--teal-bright);">Formação Completa</div>
+          <h3 style="font-size:22px; margin-bottom:10px;" contenteditable="false">Domínio Smart Money & Criptoativos</h3>
+          <p style="color:#B0B7C3; font-size:14.5px; margin-bottom:22px;" contenteditable="false">
+            Do zero à leitura institucional avançada: estrutura de mercado multifractal, psicologia operacional, gestão de banca e montagem de portfólio assimétrico.
+          </p>
+          <a href="https://lastlink.com/p/CD1001743/checkout-payment" target="_blank" class="btn btn-teal">Acessar Formação Completa</a>
+        </div>
+        <div style="background:#1F1F1F; padding:32px; border-left:4px solid var(--gold);">
+          <div class="sec-kicker" style="color:var(--gold);">Vagas Limitadas</div>
+          <h3 style="font-size:22px; margin-bottom:10px;" contenteditable="false">Mentoria Individual com Gabriel Pelissaro</h3>
+          <p style="color:#B0B7C3; font-size:14.5px; margin-bottom:22px;" contenteditable="false">
+            Acompanhamento próximo para traders e investidores que desejam calibrar seu operacional, auditar resultados e estruturar mesa proprietária ou capital próprio.
+          </p>
+          <a href="https://lastlink.com/p/CE6D7B55F/checkout-payment" target="_blank" class="btn btn-gold">Aplicar para Mentoria HSM</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 & 7. SOBRE NÓS & CONTATO -->
+  <section class="sec-white" id="sobre">
+    <div class="container split-2">
+      <div>
+        <img src="https://files.greatpages.com.br/images/404092/tZUPuf3JCwRPU9nrnGaUB4Px.webp" alt="Sobre a HSM — Gabriel Pelissaro">
+      </div>
+      <div id="contato">
+        <div class="sec-kicker">Quem Está à Frente da HSM</div>
+        <h2 class="sec-title" contenteditable="false">Gabriel Pelissaro (@gspelissaro)</h2>
+        <p style="color:var(--text-muted); margin-bottom:18px;" contenteditable="false">
+          Fundador da <strong>HSM — Hackeando Smart Money</strong>, especialista em leitura de fluxo institucional (SMC) e criador da metodologia <strong>ZII (Zona do Inventário Institucional)</strong>. Nossa missão é substituir o amadorismo do varejo por execução técnica, disciplina e proteção de capital.
+        </p>
+        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:24px;">
+          <a href="http://bit.ly/gspelissaro" target="_blank" class="btn btn-teal">Comunidade Oficial no Telegram</a>
+          <a href="https://www.instagram.com/gspelissaro/" target="_blank" class="btn" style="border:1px solid #CBD5E1; color:var(--text-dark);">Instagram @gspelissaro</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background:var(--forest-deep); color:rgba(255,255,255,0.6); padding:36px 0; font-size:12.5px; border-top:1px solid rgba(255,255,255,0.1);">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+      <img src="https://files.greatpages.com.br/images/404092/3OURaGdWpDJ93W59DbkakjWY.webp" alt="HSM" style="height:32px;">
+      <span>© 2026 HSM — Hackeando Smart Money. Todos os direitos reservados.</span>
+    </div>
+  </footer>
+
+  <!-- Checkout Modal -->
+  <div id="hsm-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:9999; align-items:center; justify-content:center; padding:20px;">
+    <div style="background:#FFFFFF; max-width:460px; width:100%; padding:28px; border-radius:4px;">
+      <h3 style="font-size:18px; margin-bottom:6px;">Transferência Integral do Portal HSM</h3>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:14px;">
+        Código-fonte completo com as 7 seções, imagens oficiais, checkouts Lastlink integrados e configuração no domínio <code>hackeandosmartmoney.com</code> por <strong>R$ 450,00</strong>.
+      </p>
+      <div style="text-align:center; background:#F8FAFC; padding:14px; border:1px solid #E2E8F0;">
+        <img id="hsm-qr" alt="QR Pix" style="width:168px; height:168px; display:block; margin:0 auto 8px;">
+        <div id="hsm-pix" style="font-family:monospace; font-size:11px; word-break:break-all; margin-bottom:10px;"></div>
+        <button class="btn btn-teal" style="width:100%;" onclick="navigator.clipboard.writeText(document.getElementById('hsm-pix').innerText); alert('Código Pix copiado.');">Copiar Pix Copia e Cola</button>
+      </div>
+      <div style="text-align:right; margin-top:12px;">
+        <button class="hb-btn" style="background:#E2E8F0; color:#111; border:none;" onclick="document.getElementById('hsm-modal').style.display='none'">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    
+function crc16ccitt(str) {
+  let crc = 0xFFFF;
+  for (let i = 0; i < str.length; i++) {
+    crc ^= str.charCodeAt(i) << 8;
+    for (let j = 0; j < 8; j++) {
+      if ((crc & 0x8000) !== 0) crc = ((crc << 1) ^ 0x1021) & 0xFFFF;
+      else crc = (crc << 1) & 0xFFFF;
+    }
+  }
+  return crc.toString(16).toUpperCase().padStart(4, "0");
+}
+function f(id, val) {
+  return id + String(val.length).padStart(2, "0") + val;
+}
+function buildPixPayload(amount, txid) {
+  const gui = f("00", "br.gov.bcb.pix");
+  const key = f("01", "0d698c3a-7f75-418e-9d09-6be18fb9a718");
+  const mai = f("26", gui + key);
+  const amt = f("54", Number(amount).toFixed(2));
+  const add = f("62", f("05", txid || "PROJETO"));
+  const base = f("00", "01") + mai + f("52", "0000") + f("53", "986") + amt + f("58", "BR") + f("59", "MARCO AURELIO") + f("60", "SAO PAULO") + add + "6304";
+  return base + crc16ccitt(base);
+}
+
+    let cmsOn = false;
+    function toggleCms() {
+      cmsOn = !cmsOn;
+      document.body.classList.toggle("cms-mode", cmsOn);
+      document.querySelectorAll("h1, h2, h3, h4, p, .plan-price, .metric-val").forEach(el => {
+        el.setAttribute("contenteditable", cmsOn ? "true" : "false");
+      });
+      const btn = document.getElementById("cms-btn");
+      btn.classList.toggle("active-cms", cmsOn);
+      btn.innerText = cmsOn ? "Salvar Textos Editados" : "Ativar Edição de Textos (CMS)";
+    }
+    function openHsmPix() {
+      const code = buildPixPayload(450.00, "HSMSITE450");
+      document.getElementById("hsm-pix").innerText = code;
+      document.getElementById("hsm-qr").src = "https://api.qrserver.com/v1/create-qr-code/?size=190x190&data=" + encodeURIComponent(code);
+      document.getElementById("hsm-modal").style.display = "flex";
+    }
+    function unlockHsm() {
+      const k = prompt("Informe a chave de liberação:");
+      if (k && k.trim().toUpperCase() === "HSM-2026-PRO") {
+        document.body.classList.add("unlocked");
+      }
+    }
+    if (new URLSearchParams(location.search).get("key") === "HSM-2026-PRO") {
+      document.body.classList.add("unlocked");
+    }
+  </script>
+</body>
+</html>

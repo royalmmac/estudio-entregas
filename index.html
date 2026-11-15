@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesa de Operações — Entregas Prontas & Contatos Diretos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F6F5F2;
+      --surface: #FFFFFF;
+      --ink: #141413;
+      --muted: #5E5D59;
+      --border: #DDDCD6;
+      --green: #15803D;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+      padding: 40px 24px 80px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; }
+    header {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 28px 32px;
+      margin-bottom: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .mono {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 6px 0;
+    }
+    .target-row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 28px 32px;
+      margin-bottom: 20px;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .target-row { grid-template-columns: 1fr; }
+    }
+    .t-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .t-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--ink);
+      color: #FFF;
+      padding: 3px 8px;
+    }
+    .t-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .t-meta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .pitch-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 14px;
+      font-size: 13px;
+      color: #262625;
+      line-height: 1.55;
+    }
+    .actions-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 11px 16px;
+      border-radius: 3px;
+      text-decoration: none;
+      display: inline-flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .btn:hover { border-color: var(--ink); }
+    .btn-wa {
+      background: var(--green);
+      border-color: var(--green);
+      color: #FFFFFF;
+    }
+    .btn-dark {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #FFFFFF;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="mono">OPERAÇÃO DIRETA · ENTREGÁVEIS COM IDENTIDADE REAL DOS CLIENTES</div>
+        <h1>Mesa de Disparo — Projetos Prontos com Ativos Oficiais</h1>
+        <p style="font-size:14px; color:var(--muted);">
+          Cada link abaixo utiliza o logotipo oficial, a tipografia original e a paleta de cores extraída do site real do contratante.
+        </p>
+      </div>
+      <div class="mono" style="text-align:right;">
+        <div>CHAVE PIX CONFIGURADA: <strong>0d698c3a-7f75-418e-9d09-6be18fb9a718</strong></div>
+        <div>STATUS: <strong>FORMULÁRIO N/TRACK JÁ ENVIADO · PRONTO P/ WHATSAPP</strong></div>
+      </div>
+    </header>
+
+    <!-- ALVO 1 -->
+    <div class="target-row">
+      <div>
+        <div class="t-head">
+          <span class="t-num">ALVO 01 · R$ 350</span>
+          <span class="t-title">N/Track Consultoria Empresarial (Florianópolis/SC)</span>
+        </div>
+        <div class="t-meta">CNPJ 50.346.186/0001-03 · WhatsApp +55 48 4042-9165 / (48) 99925-9907 · Chave: NTRACK-2026-VIP</div>
+        <div class="pitch-box" id="p1">Olá, equipe da N/Track Consultoria! Vi a publicação de vocês buscando produção de carrosséis sobre gestão empresarial e finanças. Em vez de mandar apenas portfólio, já montei a prancha completa com os 8 carrosséis (40 lâminas em proporção 4:5 + legendas) aplicando a identidade visual do site ntrack.com.br (verde petróleo #054759, amarelo #FCDC5E e fonte Poppins) sobre os 6 módulos da consultoria: https://raw.githack.com/royalmmac/estudio-entregas/main/ntrack-consultoria-pack.html — Vocês podem revisar e editar qualquer texto direto na prancha.</div>
+      </div>
+      <div class="actions-col">
+        <a id="wa1" target="_blank" class="btn btn-wa"><span>1. Abrir WhatsApp Oficial (+55 48 4042-9165)</span><span>→</span></a>
+        <a id="wa1b" target="_blank" class="btn"><span>WhatsApp Secundário (48 99925-9907)</span><span>→</span></a>
+        <a href="https://raw.githack.com/royalmmac/estudio-entregas/main/ntrack-consultoria-pack.html" target="_blank" class="btn btn-dark"><span>Abrir Prancha N/Track (8 Carrosséis)</span><span>↗</span></a>
+      </div>
+    </div>
+
+    <!-- ALVO 2 -->
+    <div class="target-row">
+      <div>
+        <div class="t-head">
+          <span class="t-num">ALVO 02 · R$ 350 / R$ 2.000 MÊS</span>
+          <span class="t-title">EducaScale — Crescimento para Escolas (João Pessoa/PB)</span>
+        </div>
+        <div class="t-meta">CNPJ 41.597.823/0001-23 · WhatsApp +55 11 93622-9721 · Instagram @educascale</div>
+        <div class="pitch-box" id="p2">Olá, pessoal da EducaScale! Vi a vaga de vocês para operação de marketing e IA voltada para escolas particulares. Para mostrar na prática como posso acelerar a entrega de vocês já nesta semana, construí um painel operacional com a identidade da EducaScale que gera em 1 clique os ângulos de Meta Ads, roteiro técnico de Reels e cadência de WhatsApp SDR para secretaria escolar: https://raw.githack.com/royalmmac/estudio-entregas/main/educascale-hub.html</div>
+      </div>
+      <div class="actions-col">
+        <a id="wa2" target="_blank" class="btn btn-wa"><span>1. Abrir WhatsApp EducaScale (+55 11 93622-9721)</span><span>→</span></a>
+        <a href="https://raw.githack.com/royalmmac/estudio-entregas/main/educascale-hub.html" target="_blank" class="btn btn-dark"><span>Abrir Painel Operacional EducaScale</span><span>↗</span></a>
+      </div>
+    </div>
+
+    <!-- ALVO 3 -->
+    <div class="target-row">
+      <div>
+        <div class="t-head">
+          <span class="t-num">ALVO 03 · R$ 450</span>
+          <span class="t-title">HSM — Hackeando Smart Money (Gabriel Pelissaro)</span>
+        </div>
+        <div class="t-meta">Instagram @gspelissaro · Telegram bit.ly/gspelissaro · Chave: HSM-2026-PRO</div>
+        <div class="pitch-box" id="p3">Fala Gabriel (@gspelissaro)! Vi o projeto que você abriu hoje para o novo site institucional da HSM (Hackeando Smart Money). Em vez de te pedir 7 dias de prazo, já desenvolvi a versão nova completa com as 7 seções que você pediu (Home, Sala Premium, Estratégia ZII, Cursos, Mentorias, Sobre e Contato), usando suas fotos e logo oficiais, seus 4 checkouts reais da Lastlink integrados e um modo de edição de textos ao vivo na barra superior: https://raw.githack.com/royalmmac/estudio-entregas/main/hsm-smart-money.html</div>
+      </div>
+      <div class="actions-col">
+        <a href="https://www.instagram.com/gspelissaro/" target="_blank" class="btn btn-wa" onclick="navigator.clipboard.writeText(document.getElementById('p3').innerText)"><span>1. Copiar Mensagem + Abrir Instagram @gspelissaro</span><span>→</span></a>
+        <a href="https://raw.githack.com/royalmmac/estudio-entregas/main/hsm-smart-money.html" target="_blank" class="btn btn-dark"><span>Abrir Novo Portal HSM (Com Fotos Reais)</span><span>↗</span></a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const p1 = encodeURIComponent(document.getElementById("p1").innerText);
+    const p2 = encodeURIComponent(document.getElementById("p2").innerText);
+    document.getElementById("wa1").href = "https://wa.me/554840429165?text=" + p1;
+    document.getElementById("wa1b").href = "https://wa.me/5548999259907?text=" + p1;
+    document.getElementById("wa2").href = "https://wa.me/5511936229721?text=" + p2;
+  </script>
+</body>
+</html>
