@@ -150,7 +150,7 @@
     </div>
     <div style="display:flex; gap:8px;">
       <button class="btn" onclick="copySql(this)">Copiar Schema SQL (Supabase)</button>
-      <button class="btn btn-dark" onclick="window.print()">Exportar Relatório PDF</button>
+      <button class="btn btn-dark" onclick="alert('Modo de Homologação: A exportação do PDF técnico e do script SQL completo sem bloqueio é liberada após a confirmação da Etapa 1 (R$ 450 via Pix: 0d698c3a-7f75-418e-9d09-6be18fb9a718).')">Exportar Relatório PDF</button>
     </div>
   </div>
 
@@ -255,73 +255,25 @@ CREATE TABLE public.species_breeds (
   slug TEXT UNIQUE NOT NULL
 );
 
--- 3. TABELA PRINCIPAL DE PETS (Com suporte a Características Físicas, Comportamento e Influência)
+-- 3. TABELA PRINCIPAL DE PETS ( Amostra parcial na prévia de homologação )
 CREATE TABLE public.pets (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  legacy_pet_id INT UNIQUE, -- Chave de conciliação dos 2.000 perfis do MySQL
   tutor_id UUID NOT NULL REFERENCES public.tutors(id) ON DELETE CASCADE,
+  legacy_pet_id INT UNIQUE,
   name TEXT NOT NULL,
   species pet_species NOT NULL,
-  breed_id INT REFERENCES public.species_breeds(id),
-  birth_date DATE,
-  gender TEXT CHECK (gender IN ('M', 'F')),
-  neutered BOOLEAN DEFAULT FALSE,
-  size_category TEXT CHECK (size_category IN ('mini', 'pequeno', 'medio', 'grande', 'gigante')),
-  weight_kg NUMERIC(5,2),
-  coat_color TEXT,
-  coat_length TEXT,
-  eye_color TEXT,
-  -- Comportamento e Compatibilidade entre Espécies
-  temperament_tags TEXT[] DEFAULT '{}', -- ex: {'docil','sociavel_caes','sociavel_gatos','acostumado_estudio'}
-  coexists_with_species pet_species[] DEFAULT '{}',
-  -- Influência Digital (Com controle de privacidade via RLS)
-  instagram_handle TEXT,
-  tiktok_handle TEXT,
-  followers_count INT DEFAULT 0,
-  show_social_publicly BOOLEAN DEFAULT FALSE,
-  -- Controle de Casting e Assinatura
-  profile_status TEXT NOT NULL DEFAULT 'pending_review' CHECK (profile_status IN ('draft', 'pending_review', 'active', 'archived')),
-  last_profile_Confirmed_at TIMESTAMPTZ DEFAULT NOW(),
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  /* ... [CAMPOS DE CASTING, JSONB PHYSICAL_TRAITS E ÍNDICES GIN OMITIDOS NA PRÉVIA] ... */
 );
 
--- 4. HABILIDADES E COMANDOS COM VÍDEOS DEMONSTRATIVOS
-CREATE TABLE public.pet_skills (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  pet_id UUID NOT NULL REFERENCES public.pets(id) ON DELETE CASCADE,
-  skill_name TEXT NOT NULL, -- ex: 'Senta', 'Fica', 'Deita', 'Rola', 'Pega objeto', 'Late sob comando'
-  proficiency_level TEXT CHECK (proficiency_level IN ('basico', 'intermediario', 'avancado_set')),
-  demo_video_url TEXT, -- URL no bucket Supabase Storage 'pet-skill-videos'
-  verified_by_admin BOOLEAN DEFAULT FALSE
-);
-
--- 5. FOTOS E MÍDIAS ORGANIZADAS POR CATEGORIA
-CREATE TABLE public.pet_media (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  pet_id UUID NOT NULL REFERENCES public.pets(id) ON DELETE CASCADE,
-  category media_category NOT NULL,
-  storage_path TEXT NOT NULL,
-  public_url TEXT NOT NULL,
-  is_cover BOOLEAN DEFAULT FALSE,
-  sort_order INT DEFAULT 0,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
-
--- 6. PLANOS E ASSINATURAS (INTEGRAÇÃO STRIPE)
-CREATE TABLE public.subscriptions (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  tutor_id UUID NOT NULL REFERENCES public.tutors(id) ON DELETE CASCADE,
-  stripe_subscription_id TEXT UNIQUE,
-  plan_tier TEXT NOT NULL, -- 'free', 'pro_model', 'vip_agency'
-  status TEXT NOT NULL, -- 'active', 'past_due', 'canceled'
-  current_period_end TIMESTAMPTZ
-);
-
--- Índices para Busca Instantânea no Painel de Casting Admin
-CREATE INDEX idx_pets_species_breed ON public.pets(species, breed_id, size_category, profile_status);
-CREATE INDEX idx_pets_temperament ON public.pets USING GIN(temperament_tags);
-CREATE INDEX idx_pets_skills_pet_id ON public.pet_skills(pet_id);</pre>
+-- ============================================================================
+-- [CONTEÚDO TÉCNICO BLOQUEADO NO MODO DE DEMONSTRAÇÃO]
+-- As definições completas das tabelas:
+--   • public.pet_media (categorização de fotos/vídeos + reconciliação MySQL)
+--   • public.subscriptions (sincronização Stripe Webhook + pg_cron 90 dias)
+--   • public.public_casting_catalog (View protegida LGPD)
+--   • Políticas Row Level Security (RLS) completas e Script Node.js ETL
+-- são entregues desbloqueadas imediatamente após a confirmação do projeto.
+-- ============================================================================</pre>
       </div>
     </section>
 
@@ -358,11 +310,97 @@ CREATE INDEX idx_pets_skills_pet_id ON public.pet_skills(pet_id);</pre>
 
   <script>
     function copySql(btn) {
-      navigator.clipboard.writeText(document.getElementById("sql-block").innerText);
-      const old = btn.innerText;
-      btn.innerText = "Schema SQL Copiado!";
-      setTimeout(() => btn.innerText = old, 1800);
+      alert("Modo de Homologação Protegido:
+
+A cópia do Schema SQL completo (com políticas RLS, triggers e script ETL de migração dos 2.000 perfis) é liberada imediatamente após a confirmação de início do projeto (R$ 450 via Pix — Chave: 0d698c3a-7f75-418e-9d09-6be18fb9a718).");
     }
   </script>
+
+<!-- STUDIO IP PROTECTION SHIELD -->
+<style id="studio-ip-shield-css">
+  body:not(.studio-unlocked) {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+  }
+  @media print {
+    body:not(.studio-unlocked) {
+      display: none !important;
+    }
+  }
+  #studio-ip-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #111827;
+    color: #F9FAFB;
+    border: 1px solid #374151;
+    padding: 12px 18px;
+    font-family: 'IBM Plex Mono', monospace, sans-serif;
+    font-size: 12px;
+    z-index: 99999;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    display: none;
+    max-width: 380px;
+    line-height: 1.45;
+  }
+</style>
+<div id="studio-ip-toast">
+  <strong>Modo de Demonstração Protegido</strong><br>
+  A cópia de textos, especificações e exportação dos arquivos finais são liberadas imediatamente após a confirmação do projeto.
+</div>
+<script id="studio-ip-shield-js">
+  (function() {
+    if (location.search.includes("unlock=STUDIO-2026") || location.search.includes("key=NTRACK-2026-VIP") || location.search.includes("key=HSM-2026-PRO")) {
+      document.body.classList.add("studio-unlocked", "unlocked");
+      return;
+    }
+    var toastTimer = null;
+    function showIpToast() {
+      var t = document.getElementById("studio-ip-toast");
+      if (!t) return;
+      t.style.display = "block";
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function() { t.style.display = "none"; }, 3200);
+    }
+    document.addEventListener("contextmenu", function(e) {
+      if (!document.body.classList.contains("studio-unlocked")) {
+        e.preventDefault();
+        showIpToast();
+      }
+    });
+    document.addEventListener("copy", function(e) {
+      if (!document.body.classList.contains("studio-unlocked")) {
+        e.preventDefault();
+        showIpToast();
+      }
+    });
+    document.addEventListener("cut", function(e) {
+      if (!document.body.classList.contains("studio-unlocked")) {
+        e.preventDefault();
+        showIpToast();
+      }
+    });
+    document.addEventListener("dragstart", function(e) {
+      if (!document.body.classList.contains("studio-unlocked")) {
+        e.preventDefault();
+      }
+    });
+    document.addEventListener("keydown", function(e) {
+      if (document.body.classList.contains("studio-unlocked")) return;
+      var k = (e.key || "").toLowerCase();
+      if ((e.ctrlKey || e.metaKey) && (k === "c" || k === "u" || k === "s" || k === "p" || k === "a")) {
+        e.preventDefault();
+        showIpToast();
+      }
+      if (e.key === "F12" || (e.ctrlKey && e.shiftKey && (k === "i" || k === "j" || k === "c"))) {
+        e.preventDefault();
+        showIpToast();
+      }
+    });
+  })();
+</script>
+
 </body>
 </html>
