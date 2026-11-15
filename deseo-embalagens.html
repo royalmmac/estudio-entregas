@@ -114,6 +114,10 @@
             <!-- Cotas Técnicas Dinâmicas -->
             <text x="260" y="20" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#1C1613" id="svg-dim-w">LARGURA INTERNA: 240 mm</text>
             <text x="45" y="175" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#8C4A27" transform="rotate(-90 45 175)" id="svg-dim-h">COMPRIMENTO: 180 mm</text>
+            <g opacity="0.24" pointer-events="none">
+              <text x="260" y="135" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="700" fill="#8C4A27" transform="rotate(-14 260 135)">AMOSTRA DE APROVAÇÃO · FACA VETORIAL BLOQUEADA</text>
+              <text x="260" y="215" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="700" fill="#1C1613" transform="rotate(-14 260 215)">USO EM GRÁFICA LIBERADO APÓS PAGAMENTO</text>
+            </g>
           </svg>
           <div class="mono" style="font-size:11px; color:var(--muted); margin-top:8px;">
             Legenda Técnica: Linha Preta Contínua = Faca de Corte | Linha Terracota Tracejada = Vinco de Dobra | Quadro Central = Clichê Hot Stamping
@@ -178,7 +182,7 @@
         title: "Caixa Estruturada M com Fecho Frontal + Dust Bag M",
         use: "Bolsas Saco, Hobo, Transversais Médias e Baú em Couro Legítimo",
         dim: "340 mm (L) × 260 mm (C) × 130 mm (A)",
-        sheet: "600 mm × 780 mm (Faca otimizada sem perda de aparas)",
+        sheet: "[MEDIDAS DE CHAPA ABERTA E SANGRIA M BLOQUEADAS NA PRÉVIA — LIBERADAS NO ARQUIVO FINAL]",
         dust: "Algodão Cru 180g/m² (40 × 34 cm) com cordão duplo",
         wText: "LARGURA INTERNA: 340 mm",
         hText: "COMPRIMENTO: 260 mm"
@@ -188,7 +192,7 @@
         title: "Caixa Boutique G de Alta Rigidez + Dust Bag G",
         use: "Bolsas Tote, Shopping Bags, Pastas Executivas e Mochilas em Couro",
         dim: "440 mm (L) × 350 mm (C) × 160 mm (A)",
-        sheet: "760 mm × 1020 mm (Onda B/E reforçada para empilhamento seguro)",
+        sheet: "[MEDIDAS DE CHAPA ABERTA E SANGRIA G BLOQUEADAS NA PRÉVIA — LIBERADAS NO ARQUIVO FINAL]",
         dust: "Algodão Cru 180g/m² (52 × 44 cm) com alça embutida",
         wText: "LARGURA INTERNA: 440 mm",
         hText: "COMPRIMENTO: 350 mm"
@@ -212,5 +216,92 @@
         '</tbody></table>';
     }
   </script>
+
+<!-- STUDIO IP PROTECTION SHIELD -->
+<style id="studio-ip-shield-css">
+  body:not(.studio-unlocked) {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+  }
+  @media print {
+    body:not(.studio-unlocked) {
+      display: none !important;
+    }
+  }
+  #studio-ip-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #111827;
+    color: #F9FAFB;
+    border: 1px solid #374151;
+    padding: 12px 18px;
+    font-family: 'IBM Plex Mono', monospace, sans-serif;
+    font-size: 12px;
+    z-index: 99999;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    display: none;
+    max-width: 380px;
+    line-height: 1.45;
+  }
+</style>
+<div id="studio-ip-toast">
+  <strong>Modo de Demonstração Protegido</strong><br>
+  A cópia de textos, especificações e exportação dos arquivos finais são liberadas imediatamente após a confirmação do projeto.
+</div>
+<script id="studio-ip-shield-js">
+  (function() {
+    if (location.search.includes("unlock=STUDIO-2026") || location.search.includes("key=NTRACK-2026-VIP") || location.search.includes("key=HSM-2026-PRO")) {
+      document.body.classList.add("studio-unlocked", "unlocked");
+      return;
+    }
+    var toastTimer = null;
+    function showIpToast() {
+      var t = document.getElementById("studio-ip-toast");
+      if (!t) return;
+      t.style.display = "block";
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function() { t.style.display = "none"; }, 3200);
+    }
+    document.addEventListener("contextmenu", function(e) {
+      if (!document.body.classList.contains("studio-unlocked")) {
+        e.preventDefault();
+        showIpToast();
+      }
+    });
+    document.addEventListener("copy", function(e) {
+      if (!document.body.classList.contains("studio-unlocked")) {
+        e.preventDefault();
+        showIpToast();
+      }
+    });
+    document.addEventListener("cut", function(e) {
+      if (!document.body.classList.contains("studio-unlocked")) {
+        e.preventDefault();
+        showIpToast();
+      }
+    });
+    document.addEventListener("dragstart", function(e) {
+      if (!document.body.classList.contains("studio-unlocked")) {
+        e.preventDefault();
+      }
+    });
+    document.addEventListener("keydown", function(e) {
+      if (document.body.classList.contains("studio-unlocked")) return;
+      var k = (e.key || "").toLowerCase();
+      if ((e.ctrlKey || e.metaKey) && (k === "c" || k === "u" || k === "s" || k === "p" || k === "a")) {
+        e.preventDefault();
+        showIpToast();
+      }
+      if (e.key === "F12" || (e.ctrlKey && e.shiftKey && (k === "i" || k === "j" || k === "c"))) {
+        e.preventDefault();
+        showIpToast();
+      }
+    });
+  })();
+</script>
+
 </body>
 </html>
