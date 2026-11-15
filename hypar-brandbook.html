@@ -231,6 +231,27 @@
       padding: 26px 22px;
       position: relative;
     }
+  
+    .icon-stage, .svg-box, .logo-card { position: relative; overflow: hidden; }
+    body:not(.unlocked) .icon-stage::after,
+    body:not(.unlocked) .svg-box::after,
+    body:not(.unlocked) .logo-card::after {
+      content: "PRÉVIA · VETOR BLOQUEADO";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.42);
+      text-shadow: 0 1px 3px rgba(0,0,0,0.45);
+      transform: rotate(-18deg);
+      pointer-events: none;
+    }
+  
   </style>
 </head>
 <body>
@@ -473,9 +494,9 @@
             </div>
             <div>
               <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px;">
-                <span class="mono" style="font-size:10px; background:#F0E7FF; color:#6E18F5; padding:4px 8px; border-radius:4px; font-weight:600;">Mercado</span>
-                <span class="mono" style="font-size:10px; background:#F0E7FF; color:#6E18F5; padding:4px 8px; border-radius:4px; font-weight:600;">Farmácia</span>
-                <span class="mono" style="font-size:10px; background:#F0E7FF; color:#6E18F5; padding:4px 8px; border-radius:4px; font-weight:600;">Moda</span>
+                <span class="mono" style="font-size:10px; background:#F0E7FF; color:var(--hypar-violet); padding:4px 8px; border-radius:4px; font-weight:600;">Mercado</span>
+                <span class="mono" style="font-size:10px; background:#F0E7FF; color:var(--hypar-violet); padding:4px 8px; border-radius:4px; font-weight:600;">Farmácia</span>
+                <span class="mono" style="font-size:10px; background:#F0E7FF; color:var(--hypar-violet); padding:4px 8px; border-radius:4px; font-weight:600;">Moda</span>
                 <span class="mono" style="font-size:10px; background:#E6FAEE; color:#008A38; padding:4px 8px; border-radius:4px; font-weight:600;">Pet & Mais</span>
               </div>
               <h4 style="font-size:20px; font-weight:800; line-height:1.2; margin-bottom:10px;">
@@ -524,5 +545,92 @@
       a.click();
     }
   </script>
+
+<!-- STUDIO IP PROTECTION SHIELD -->
+<style id="studio-ip-shield-css">
+  body:not(.studio-unlocked) {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+  }
+  @media print {
+    body:not(.studio-unlocked) {
+      display: none !important;
+    }
+  }
+  #studio-ip-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #111827;
+    color: #F9FAFB;
+    border: 1px solid #374151;
+    padding: 12px 18px;
+    font-family: 'IBM Plex Mono', monospace, sans-serif;
+    font-size: 12px;
+    z-index: 99999;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    display: none;
+    max-width: 380px;
+    line-height: 1.45;
+  }
+</style>
+<div id="studio-ip-toast">
+  <strong>Modo de Demonstração Protegido</strong><br>
+  A cópia de textos, especificações e exportação dos arquivos finais são liberadas imediatamente após a confirmação do projeto.
+</div>
+<script id="studio-ip-shield-js">
+  (function() {
+    if (location.search.includes("unlock=STUDIO-2026") || location.search.includes("key=NTRACK-2026-VIP") || location.search.includes("key=HSM-2026-PRO")) {
+      document.body.classList.add("studio-unlocked", "unlocked");
+      return;
+    }
+    var toastTimer = null;
+    function showIpToast() {
+      var t = document.getElementById("studio-ip-toast");
+      if (!t) return;
+      t.style.display = "block";
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function() { t.style.display = "none"; }, 3200);
+    }
+    document.addEventListener("contextmenu", function(e) {
+      if (!document.body.classList.contains("studio-unlocked")) {
+        e.preventDefault();
+        showIpToast();
+      }
+    });
+    document.addEventListener("copy", function(e) {
+      if (!document.body.classList.contains("studio-unlocked")) {
+        e.preventDefault();
+        showIpToast();
+      }
+    });
+    document.addEventListener("cut", function(e) {
+      if (!document.body.classList.contains("studio-unlocked")) {
+        e.preventDefault();
+        showIpToast();
+      }
+    });
+    document.addEventListener("dragstart", function(e) {
+      if (!document.body.classList.contains("studio-unlocked")) {
+        e.preventDefault();
+      }
+    });
+    document.addEventListener("keydown", function(e) {
+      if (document.body.classList.contains("studio-unlocked")) return;
+      var k = (e.key || "").toLowerCase();
+      if ((e.ctrlKey || e.metaKey) && (k === "c" || k === "u" || k === "s" || k === "p" || k === "a")) {
+        e.preventDefault();
+        showIpToast();
+      }
+      if (e.key === "F12" || (e.ctrlKey && e.shiftKey && (k === "i" || k === "j" || k === "c"))) {
+        e.preventDefault();
+        showIpToast();
+      }
+    });
+  })();
+</script>
+
 </body>
 </html>
