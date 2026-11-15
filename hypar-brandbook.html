@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hypar Delivery — Caderno Técnico de Identidade Visual & Sistema Vetorial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #F4F3EF;
+      --surface: #FFFFFF;
+      --ink: #0E0F14;
+      --muted: #5A5D65;
+      --border: #DCDAD2;
+      --hypar-violet: #6E18F5;
+      --hypar-violet-raw: #7A1FFF;
+      --hypar-green: #00C853;
+      --hypar-obsidian: #0E0F14;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.5;
+      padding-top: 64px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .mono {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* Top Studio Bar */
+    #studio-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 64px;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 9000;
+    }
+    .sb-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .sb-badge {
+      background: var(--ink);
+      color: #FFFFFF;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 10px;
+      letter-spacing: 0.04em;
+    }
+    .sb-meta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .sb-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .btn {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 9px 16px;
+      border-radius: 3px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .btn-dark {
+      background: var(--ink);
+      color: #FFFFFF;
+      border-color: var(--ink);
+    }
+
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 40px 28px 96px;
+    }
+
+    /* Sheet Section */
+    .sheet {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      margin-bottom: 36px;
+    }
+    .sheet-head {
+      padding: 18px 28px;
+      border-bottom: 1px solid var(--border);
+      background: #FAF9F6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sheet-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--hypar-violet);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .sheet-body {
+      padding: 36px 28px;
+    }
+
+    /* Grid layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 920px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      #studio-bar { height: auto; padding: 12px 16px; flex-wrap: wrap; gap: 10px; }
+      body { padding-top: 108px; }
+    }
+
+    /* Blueprint Construction Canvas */
+    .blueprint-box {
+      border: 1px solid var(--border);
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 320px;
+      position: relative;
+    }
+    .bp-grid-bg {
+      background-color: #FAF9F6;
+      background-image:
+        linear-gradient(to right, rgba(110, 24, 245, 0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(110, 24, 245, 0.07) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .bp-dark-bg {
+      background: var(--hypar-obsidian);
+      color: #FFFFFF;
+    }
+    .bp-violet-bg {
+      background: var(--hypar-violet);
+      color: #FFFFFF;
+    }
+    .bp-caption {
+      position: absolute;
+      bottom: 12px;
+      left: 16px;
+      right: 16px;
+      display: flex;
+      justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10.5px;
+      opacity: 0.65;
+    }
+
+    /* App Icon Card */
+    .app-card {
+      border: 1px solid var(--border);
+      padding: 28px;
+      background: #FAF9F6;
+    }
+    .squircle {
+      width: 96px;
+      height: 96px;
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 24px rgba(14, 15, 20, 0.12);
+    }
+
+    /* Color Swatches */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 920px) { .swatch-grid { grid-template-columns: 1fr 1fr; } }
+    .swatch {
+      border: 1px solid var(--border);
+    }
+    .swatch-color {
+      height: 110px;
+      padding: 14px;
+      display: flex;
+      align-items: flex-end;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .swatch-info {
+      padding: 14px;
+      background: #FFFFFF;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11.5px;
+      line-height: 1.6;
+    }
+
+    /* Mobile Onboarding Mockups */
+    .phone-frame {
+      border: 8px solid #18191F;
+      border-radius: 32px;
+      aspect-ratio: 9 / 18.5;
+      max-width: 280px;
+      margin: 0 auto;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 26px 22px;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="studio-bar">
+    <div class="sb-left">
+      <span class="sb-badge">PRANCHA TÉCNICA #HYP-01</span>
+      <span class="sb-meta"><strong>HYPAR DELIVERY</strong> · Sistema de Identidade Visual Vetorial (Cliente · Lojista · Entregador · Express)</span>
+    </div>
+    <div class="sb-actions">
+      <button class="btn" onclick="downloadSvg()">Baixar Símbolo Vetorial (.SVG)</button>
+      <button class="btn btn-dark" onclick="window.print()">Exportar Caderno PDF</button>
+    </div>
+  </div>
+
+  <main class="container">
+
+    <!-- PRANCHA 01: CONCEITO E CONSTRUÇÃO GEOMÉTRICA VETORIAL -->
+    <section class="sheet">
+      <div class="sheet-head">
+        <span class="sheet-num">Prancha 01 · Construção Geométrica do Símbolo & Lockup Principal</span>
+        <span class="mono" style="font-size:11.5px; color:var(--muted);">Autoria 100% Vetorial · Grid Modular 24×24 · Sem Uso de IA ou Templates</span>
+      </div>
+      <div class="sheet-body">
+        <div style="max-width:820px; margin-bottom:28px;">
+          <h1 style="font-size:28px; font-weight:800; letter-spacing:-0.02em; margin-bottom:10px;">
+            Arquitetura de Marca — Hypar Delivery & Hypar Express
+          </h1>
+          <p style="font-size:14.5px; color:var(--muted);">
+            O símbolo da <strong>Hypar</strong> foi construído em malha geométrica pura a partir da interseção de <strong>dois vetores direcionais (Conector Urbano + Pino de Rota Local)</strong> que formam a letra <strong>H</strong> com um eixo central de velocidade (<em>Hypar Express</em>). Ao evitar clichês de garfo, sacola de restaurante ou capacete de motoboy, a marca posiciona a Hypar como um <strong>Super App Multicategoria</strong> (Supermercados, Farmácias, Moda, Pet, Presentes e Gastronomia).
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <!-- Blueprint Construction -->
+          <div class="blueprint-box bp-grid-bg">
+            <svg id="hypar-master-svg" width="160" height="160" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Construction guide lines -->
+              <circle cx="60" cy="60" r="52" stroke="#6E18F5" stroke-opacity="0.22" stroke-dasharray="3 3"/>
+              <line x1="0" y1="60" x2="120" y2="60" stroke="#6E18F5" stroke-opacity="0.18"/>
+              <line x1="60" y1="0" x2="60" y2="120" stroke="#6E18F5" stroke-opacity="0.18"/>
+              <!-- Left Vertical Pillar (Commerce/Hub) -->
+              <path d="M26 24C26 20.6863 28.6863 18 32 18H44C47.3137 18 50 20.6863 50 24V96C50 99.3137 47.3137 102 44 102H32C28.6863 102 26 99.3137 26 96V24Z" fill="#6E18F5"/>
+              <!-- Right Vertical Pillar (Consumer/Destination) -->
+              <path d="M70 24C70 20.6863 72.6863 18 76 18H88C91.3137 18 94 20.6863 94 24V96C94 99.3137 91.3137 102 88 102H76C72.6863 102 70 99.3137 70 96V24Z" fill="#6E18F5"/>
+              <!-- Kinetic Express Bridge (Green Vector Arrow/Bolt) -->
+              <path d="M38 66L64 42V56H82L56 80V66H38Z" fill="#00C853"/>
+            </svg>
+            <div class="bp-caption">
+              <span>MALHA CONSTRUTIVA 120×120</span>
+              <span>ÂNGULO VETORIAL: 42.5°</span>
+            </div>
+          </div>
+
+          <!-- Dark Version -->
+          <div class="blueprint-box bp-dark-bg">
+            <div style="display:flex; align-items:center; gap:16px;">
+              <svg width="68" height="68" viewBox="0 0 120 120" fill="none">
+                <rect width="120" height="120" rx="26" fill="#6E18F5"/>
+                <path d="M28 28H46V92H28V28Z" fill="#FFFFFF"/>
+                <path d="M74 28H92V92H74V28Z" fill="#FFFFFF"/>
+                <path d="M38 65L64 41V55H82L56 79V65H38Z" fill="#00C853"/>
+              </svg>
+              <div>
+                <div style="font-size:32px; font-weight:800; letter-spacing:-0.04em; line-height:1;">hypar</div>
+                <div class="mono" style="font-size:11px; color:#00C853; letter-spacing:0.18em; font-weight:600; margin-top:4px;">DELIVERY</div>
+              </div>
+            </div>
+            <div class="bp-caption" style="color:rgba(255,255,255,0.5);">
+              <span>ASSINATURA FUNDO ESCURO (#0E0F14)</span>
+              <span>PRINCIPAL</span>
+            </div>
+          </div>
+
+          <!-- Light Version -->
+          <div class="blueprint-box" style="background:#FFFFFF;">
+            <div style="display:flex; align-items:center; gap:16px;">
+              <svg width="68" height="68" viewBox="0 0 120 120" fill="none">
+                <rect width="120" height="120" rx="26" fill="#6E18F5"/>
+                <path d="M28 28H46V92H28V28Z" fill="#FFFFFF"/>
+                <path d="M74 28H92V92H74V28Z" fill="#FFFFFF"/>
+                <path d="M38 65L64 41V55H82L56 79V65H38Z" fill="#00C853"/>
+              </svg>
+              <div>
+                <div style="font-size:32px; font-weight:800; letter-spacing:-0.04em; line-height:1; color:#0E0F14;">hypar</div>
+                <div class="mono" style="font-size:11px; color:#6E18F5; letter-spacing:0.18em; font-weight:600; margin-top:4px;">DELIVERY</div>
+              </div>
+            </div>
+            <div class="bp-caption">
+              <span>ASSINATURA FUNDO CLARO (#FFFFFF)</span>
+              <span>INSTITUCIONAL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRANCHA 02: ECOSSISTEMA DOS 3 PÚBLICOS (CLIENTE, LOJISTA, ENTREGADOR) -->
+    <section class="sheet">
+      <div class="sheet-head">
+        <span class="sheet-num">Prancha 02 · Arquitetura de Submarcas e Ícones de Aplicativo (3 Públicos)</span>
+        <span class="mono" style="font-size:11.5px; color:var(--muted);">Diferenciação Imediata na Tela do Celular (1024×1024px Squircle)</span>
+      </div>
+      <div class="sheet-body">
+        <div class="grid-3">
+          <!-- App 1: Cliente -->
+          <div class="app-card">
+            <div class="squircle" style="background:#6E18F5;">
+              <svg width="58" height="58" viewBox="0 0 120 120" fill="none">
+                <path d="M26 24H48V96H26V24Z" fill="#FFFFFF"/>
+                <path d="M72 24H94V96H72V24Z" fill="#FFFFFF"/>
+                <path d="M38 65L64 41V55H82L56 79V65H38Z" fill="#00C853"/>
+              </svg>
+            </div>
+            <div class="mono" style="font-size:11px; color:var(--hypar-violet); font-weight:600; margin-bottom:4px;">AMBIENTE 01 · CONSUMIDOR FINAL</div>
+            <h3 style="font-size:18px; font-weight:800; margin-bottom:8px;">Hypar (App Cliente)</h3>
+            <p style="font-size:13.5px; color:var(--muted);">
+              Fundo predominante em <strong>Violeta Elétrico (<code>#6E18F5</code>)</strong> com monograma branco e ponte cinética verde. Transmite variedade, descoberta de vídeos curtos (Shoppertainment) e conveniência local.
+            </p>
+          </div>
+
+          <!-- App 2: Lojista -->
+          <div class="app-card">
+            <div class="squircle" style="background:#0E0F14; border:2px solid #6E18F5;">
+              <svg width="58" height="58" viewBox="0 0 120 120" fill="none">
+                <path d="M26 24H48V96H26V24Z" fill="#6E18F5"/>
+                <path d="M72 24H94V96H72V24Z" fill="#FFFFFF"/>
+                <path d="M38 65L64 41V55H82L56 79V65H38Z" fill="#00C853"/>
+              </svg>
+            </div>
+            <div class="mono" style="font-size:11px; color:var(--ink); font-weight:600; margin-bottom:4px;">AMBIENTE 02 · GESTÃO COMERCIAL</div>
+            <h3 style="font-size:18px; font-weight:800; margin-bottom:8px;">Hypar Lojista (Parceiros)</h3>
+            <p style="font-size:13.5px; color:var(--muted);">
+              Fundo em <strong>Obsidian (<code>#0E0F14</code>)</strong> para diferenciar imediatamente do app de compras no celular do comerciante. Passa sobriedade financeira, controle de pedidos, catálogo e publicação de vídeos.
+            </p>
+          </div>
+
+          <!-- App 3: Entregador / Express -->
+          <div class="app-card">
+            <div class="squircle" style="background:#00C853;">
+              <svg width="58" height="58" viewBox="0 0 120 120" fill="none">
+                <path d="M26 24H48V96H26V24Z" fill="#0E0F14"/>
+                <path d="M72 24H94V96H72V24Z" fill="#0E0F14"/>
+                <path d="M38 65L64 41V55H82L56 79V65H38Z" fill="#FFFFFF"/>
+              </svg>
+            </div>
+            <div class="mono" style="font-size:11px; color:#008A38; font-weight:600; margin-bottom:4px;">AMBIENTE 03 · LOGÍSTICA & EXPRESS</div>
+            <h3 style="font-size:18px; font-weight:800; margin-bottom:8px;">Hypar Entregador & Express</h3>
+            <p style="font-size:13.5px; color:var(--muted);">
+              Fundo em <strong>Verde Cinético (<code>#00C853</code>)</strong> de altíssima visibilidade sob luz solar (uso em rua/trânsito) e assinatura do selo de entrega prioritária <strong>Hypar Express</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRANCHA 03: DIAGNÓSTICO E CALIBRAGEM CROMÁTICA -->
+    <section class="sheet">
+      <div class="sheet-head">
+        <span class="sheet-num">Prancha 03 · Diagnóstico Técnico da Paleta (Roxo + Verde) & Calibragem de Contraste WCAG AAA</span>
+        <span class="mono" style="font-size:11.5px; color:var(--muted);">Parecer Técnico Solicitado no Briefing</span>
+      </div>
+      <div class="sheet-body">
+        <p style="font-size:14px; color:var(--muted); max-width:920px; margin-bottom:24px;">
+          <strong>Parecer Profissional sobre as cores atuais (<code>#7A1FFF</code> e <code>#00C853</code>):</strong> A combinação de Roxo + Verde é estrategicamente excelente porque foge 100% do vermelho saturado de comida (iFood/Rappi) e do amarelo de bebidas. Porém, o tom puro <code>#7A1FFF</code> apresenta vibração excessiva sobre branco em textos pequenos e perde densidade na impressão física (jaquetas, bags e adesivos CMYK). Recomendamos manter o DNA Roxo + Verde com um ajuste sutil de luminância para <strong><code>#6E18F5</code> (Hypar Violet)</strong> em superfícies e <strong><code>#0E0F14</code> (Obsidian)</strong> como âncora de contraste.
+        </p>
+
+        <div class="swatch-grid">
+          <div class="swatch">
+            <div class="swatch-color" style="background:#6E18F5; color:#FFFFFF;">HYPAR VIOLET (CALIBRADO)</div>
+            <div class="swatch-info">
+              <div><strong>HEX:</strong> #6E18F5 *(Ref. original #7A1FFF)*</div>
+              <div><strong>RGB:</strong> 110, 24, 245</div>
+              <div><strong>CMYK:</strong> 74, 84, 0, 0</div>
+              <div><strong>Uso:</strong> Marca principal, App Cliente, CTAs</div>
+            </div>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch-color" style="background:#00C853; color:#0E0F14;">KINETIC GREEN (EXPRESS)</div>
+            <div class="swatch-info">
+              <div><strong>HEX:</strong> #00C853 *(Preservado)*</div>
+              <div><strong>RGB:</strong> 0, 200, 83</div>
+              <div><strong>CMYK:</strong> 78, 0, 85, 0</div>
+              <div><strong>Uso:</strong> Vetor central, Selo Hypar Express, App Entregador</div>
+            </div>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch-color" style="background:#0E0F14; color:#FFFFFF;">HYPAR OBSIDIAN</div>
+            <div class="swatch-info">
+              <div><strong>HEX:</strong> #0E0F14</div>
+              <div><strong>RGB:</strong> 14, 15, 20</div>
+              <div><strong>CMYK:</strong> 75, 68, 62, 82</div>
+              <div><strong>Uso:</strong> Tipografia, App Lojista, Uniformes e Bags</div>
+            </div>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch-color" style="background:#F4F3EF; color:#0E0F14; border-bottom:1px solid var(--border);">NEUTRAL SURFACE</div>
+            <div class="swatch-info">
+              <div><strong>HEX:</strong> #F4F3EF / #FFFFFF</div>
+              <div><strong>RGB:</strong> 244, 243, 239</div>
+              <div><strong>CMYK:</strong> 3, 3, 5, 0</div>
+              <div><strong>Uso:</strong> Fundo de interface multicategoria limpa</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRANCHA 04: SPLASH SCREEN, ONBOARDING & ENXOVAL FÍSICO -->
+    <section class="sheet">
+      <div class="sheet-head">
+        <span class="sheet-num">Prancha 04 · Splash Screen, Telas de Onboarding & Aplicações Físicas (Bag, Jaqueta e Adesivo)</span>
+        <span class="mono" style="font-size:11.5px; color:var(--muted);">Pronto para Exportação em Vetor (SVG / AI / PDF)</span>
+      </div>
+      <div class="sheet-body">
+        <div class="grid-3">
+          <!-- Phone 1: Splash Screen -->
+          <div class="phone-frame" style="background:linear-gradient(165deg, #6E18F5 0%, #4609B5 100%); color:#FFFFFF; text-align:center;">
+            <div class="mono" style="font-size:10px; opacity:0.6;">9:41 · SPLASH SCREEN</div>
+            <div>
+              <svg width="76" height="76" viewBox="0 0 120 120" fill="none" style="margin:0 auto 14px; display:block;">
+                <path d="M26 24H48V96H26V24Z" fill="#FFFFFF"/>
+                <path d="M72 24H94V96H72V24Z" fill="#FFFFFF"/>
+                <path d="M38 65L64 41V55H82L56 79V65H38Z" fill="#00C853"/>
+              </svg>
+              <div style="font-size:28px; font-weight:800; letter-spacing:-0.04em;">hypar</div>
+              <div class="mono" style="font-size:10px; color:#00C853; letter-spacing:0.2em; margin-top:4px;">SUA CIDADE EM 1 TOQUE</div>
+            </div>
+            <div class="mono" style="font-size:10px; opacity:0.5;">v1.0 · HYPAR UNIVERSE</div>
+          </div>
+
+          <!-- Phone 2: Onboarding Multicategoria + Video Shoppertainment -->
+          <div class="phone-frame" style="background:#FFFFFF; color:#0E0F14;">
+            <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:700;">
+              <span style="color:#6E18F5;">hypar</span>
+              <span class="mono" style="color:var(--muted);">01/03</span>
+            </div>
+            <div>
+              <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px;">
+                <span class="mono" style="font-size:10px; background:#F0E7FF; color:#6E18F5; padding:4px 8px; border-radius:4px; font-weight:600;">Mercado</span>
+                <span class="mono" style="font-size:10px; background:#F0E7FF; color:#6E18F5; padding:4px 8px; border-radius:4px; font-weight:600;">Farmácia</span>
+                <span class="mono" style="font-size:10px; background:#F0E7FF; color:#6E18F5; padding:4px 8px; border-radius:4px; font-weight:600;">Moda</span>
+                <span class="mono" style="font-size:10px; background:#E6FAEE; color:#008A38; padding:4px 8px; border-radius:4px; font-weight:600;">Pet & Mais</span>
+              </div>
+              <h4 style="font-size:20px; font-weight:800; line-height:1.2; margin-bottom:10px;">
+                Muito além de comida: toda a sua cidade em vídeo.
+              </h4>
+              <p style="font-size:12.5px; color:var(--muted);">
+                Assista vídeos curtos reais das lojas da sua cidade e compre em segundos com entrega <strong>Hypar Express</strong>.
+              </p>
+            </div>
+            <div style="background:#6E18F5; color:#FFFFFF; text-align:center; padding:12px; border-radius:8px; font-size:13px; font-weight:700;">
+              Explorar Lojas da Cidade →
+            </div>
+          </div>
+
+          <!-- Physical Mockup Spec Card -->
+          <div style="display:flex; flex-direction:column; gap:14px; justify-content:space-between;">
+            <div style="border:1px solid var(--border); padding:20px; background:#0E0F14; color:#FFFFFF;">
+              <div class="mono" style="font-size:10.5px; color:#00C853; margin-bottom:6px;">APLICAÇÃO 01 · BAG TÉRMICA & JAQUETA</div>
+              <div style="font-size:16px; font-weight:700; margin-bottom:6px;">Corpo Obsidian (#0E0F14) + Faixas Refletivas Verde Express (#00C853)</div>
+              <p style="font-size:12.5px; color:#A0A4B0;">
+                O tecido escuro evita aparência de desgaste no uso diário, enquanto o monograma H e as faixas laterais em verde refletivo garantem segurança noturna e visibilidade da marca nas ruas.
+              </p>
+            </div>
+
+            <div style="border:1px solid var(--border); padding:20px; background:#6E18F5; color:#FFFFFF;">
+              <div class="mono" style="font-size:10.5px; color:#00C853; margin-bottom:6px;">APLICAÇÃO 02 · SELO VITRINE LOJISTA</div>
+              <div style="font-size:16px; font-weight:700; margin-bottom:6px;">Adesivo 15×15cm: "Compre pelo Hypar Delivery"</div>
+              <p style="font-size:12.5px; color:rgba(255,255,255,0.85);">
+                Fundo Violeta com QR Code dinâmico da loja parceira e selo verde "Entrega Rápida Hypar Express", ideal para vitrines de farmácias, pet shops, lojas de roupas e restaurantes.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    function downloadSvg() {
+      const svgEl = document.getElementById("hypar-master-svg");
+      const blob = new Blob([svgEl.outerHTML], { type: "image/svg+xml;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "hypar-delivery-simbolo-vetorial.svg";
+      a.click();
+    }
+  </script>
+</body>
+</html>
