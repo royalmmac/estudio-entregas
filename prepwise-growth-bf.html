@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prepwise — Arquitetura de Conversão Install-to-Paid & Operação Black Friday</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FAF9F5;
+      --surface: #FFFFFF;
+      --ink: #111827;
+      --muted: #4B5563;
+      --border: #E5E7EB;
+      --indigo: #312E81;
+      --indigo-soft: #EEF2FF;
+      --emerald: #065F46;
+      --emerald-soft: #ECFDF5;
+      --amber: #92400E;
+      --amber-soft: #FFFBEB;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.55; }
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: #111827; color: #F9FAFB;
+      padding: 12px 24px; border-bottom: 1px solid #374151;
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px;
+    }
+    .mono { font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+    .btn {
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600;
+      padding: 9px 16px; border: 1px solid transparent; cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px; transition: 0.15s;
+    }
+    .btn-primary { background: #10B981; color: #064E3B; font-weight: 700; }
+    .btn-outline { background: transparent; color: #F9FAFB; border-color: #4B5563; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 40px 24px 80px; }
+    .header-box { background: var(--surface); border: 1px solid var(--border); padding: 36px; margin-bottom: 28px; }
+    .tag { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 4px 10px; background: var(--indigo-soft); color: var(--indigo); margin-bottom: 14px; }
+    h1 { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 12px; color: var(--ink); }
+    h2 { font-size: 20px; font-weight: 700; margin-bottom: 14px; letter-spacing: -0.01em; }
+    h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 28px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 28px; }
+    @media (max-width: 860px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
+    .card { background: var(--surface); border: 1px solid var(--border); padding: 26px; }
+    .metric { font-family: 'IBM Plex Mono', monospace; font-size: 26px; font-weight: 600; color: var(--indigo); margin: 6px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin-top: 10px; }
+    th, td { border: 1px solid var(--border); padding: 11px 12px; text-align: left; vertical-align: top; }
+    th { background: #F3F4F6; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; text-transform: uppercase; color: var(--muted); }
+    .code-box { background: #111827; color: #E5E7EB; padding: 18px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; overflow-x: auto; line-height: 1.6; margin-top: 10px; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 12px; flex-wrap: wrap; }
+    .tab-btn { padding: 8px 14px; font-size: 13px; font-weight: 600; border: 1px solid var(--border); background: #F9FAFB; cursor: pointer; }
+    .tab-btn.active { background: var(--indigo); color: #FFF; border-color: var(--indigo); }
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(17,24,39,0.65); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+    .modal { background: #FFF; max-width: 520px; width: 100%; padding: 32px; border: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div>
+      <span class="mono" style="color:#9CA3AF;">DOCUMENTO TÉCNICO DE GROWTH & ATIVAÇÃO ·</span>
+      <strong style="margin-left:6px; font-size:13.5px;">PREPWISE LTDA (ENEM & CONCURSOS · MOTOR SIGA + TUTOR NINO)</strong>
+    </div>
+    <div style="display:flex; gap:10px;">
+      <button class="btn btn-outline" onclick="toggleEdit()" id="edit-btn">Modo Edição: Desativado</button>
+      <button class="btn btn-primary" onclick="openModal()">Iniciar Sprint Black Friday Hoje (R$ 450 via Pix)</button>
+    </div>
+  </div>
+
+  <div class="wrap" id="editable-root">
+    <div class="header-box">
+      <span class="tag">DIAGNÓSTICO E PLANO DE EXECUÇÃO IMEDIATA — BLACK FRIDAY (27 DE NOVEMBRO)</span>
+      <h1>Arquitetura de Conversão Install-to-Paid: Transformando Instalações de R$ 0,22 em Assinantes Recorrentes</h1>
+      <p style="font-size:15.5px; color:var(--muted); max-width:860px;">
+        Estrutura operacional desenhada especificamente para a <strong>Prepwise</strong> (Felipe Chagas, Jonathan Favero & Renan Simões). O custo de aquisição no topo do funil (<strong>R$ 0,20 a R$ 0,25 por instalação</strong>) já prova tração de mídia. O gargalo está na transição entre o primeiro contato com o app, a tangibilização do valor do <strong>modelo SIGA</strong> + <strong>Tutor Nino</strong> e o momento de ancoragem do Paywall.
+      </p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="mono" style="color:var(--muted);">1. GARGALO ATUAL IDENTIFICADO</div>
+        <div class="metric">CPI R$ 0,22 → Paywall Frio</div>
+        <p style="font-size:13.5px; color:var(--muted);">
+          O usuário instala pelo anúncio barato, mas encontra um onboarding que pede esforço antes de entregar a revelação individual do <strong>SIGA</strong> (mapa real de lacunas por subtópico). Sem ver seu próprio diagnóstico, o usuário trata o app como banco de questões comum.
+        </p>
+      </div>
+      <div class="card">
+        <div class="mono" style="color:var(--muted);">2. ALAVANCA DE ATIVAÇÃO (AHA MOMENT)</div>
+        <div class="metric">Micro-Diagnóstico 5 min</div>
+        <p style="font-size:13.5px; color:var(--muted);">
+          Substituir o cadastro frio por um <strong>Desafio Adaptativo SIGA de 6 Questões</strong> na prova-alvo do usuário (ENEM ou Concurso específico). O SIGA varia a dificuldade em tempo real, mede o tempo por item e gera o <strong>Mapa de Lacunas + Nota Projetada</strong> em menos de 4 minutos.
+        </p>
+      </div>
+      <div class="card">
+        <div class="mono" style="color:var(--muted);">3. META DE CONVERSÃO (SPRINT BF)</div>
+        <div class="metric">3,8% a 5,5% Install → Paid</div>
+        <p style="font-size:13.5px; color:var(--muted);">
+          Com CPI médio de R$ 0,23, uma conversão Install-to-Paid de 4% gera um <strong>CAC de R$ 5,75 por assinante pago</strong> — permitindo escalar o orçamento de Meta Ads e Google App Campaigns com payback imediato na primeira cobrança.
+        </p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:28px;">
+      <h2>1. Nova Jornada de Onboarding & Paywall Contextual (Efeito Dotação com SIGA + Nino)</h2>
+      <p style="font-size:14px; color:var(--muted); margin-bottom:14px;">
+        Em vez de bloquear recursos de forma genérica, o paywall passa a ser acionado imediatamente após o estudante visualizar seu próprio mapa de proficiência calculado pelo SIGA:
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Etapa do Funil In-App</th>
+            <th>O Que Acontece na Tela (Experiência do Aluno)</th>
+            <th>Gatilho Psicológico & Evento Rastreado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Passo 1 (0–30s)</strong><br>Seleção de Objetivo sem Login</td>
+            <td>O usuário escolhe a prova-alvo (ex.: <em>ENEM — Medicina/Direito</em> ou <em>Concurso INSS / Polícia / Tribunais</em>) e a data da prova. Sem formulário longo antes de testar.</td>
+            <td>Redução de fricção inicial (-40% drop-off no splash).<br><span class="mono">ev: onboarding_goal_selected</span></td>
+          </tr>
+          <tr>
+            <td><strong>Passo 2 (30s–3m30s)</strong><br>Calibragem Relâmpago SIGA</td>
+            <td>6 questões adaptativas sobre 2 tópicos de alto peso no edital escolhido. A UI mostra em tempo real: <em>"SIGA ajustando nível de complexidade..."</em> e monitora o tempo de resposta vs. chute.</td>
+            <td>Tangibilização imediata do diferencial de IA vs. cursinho tradicional.<br><span class="mono">ev: siga_calibration_completed</span></td>
+          </tr>
+          <tr>
+            <td><strong>Passo 3 (3m30s–4m30s)</strong><br>Entrega do Mapa + Intervenção do Nino</td>
+            <td>Tela exibe o <strong>Score Real SIGA</strong> daquele assunto, aponta as 3 sub-lacunas críticas que derrubam a nota na TRI e abre 1 mensagem personalizada do <strong>Tutor Nino</strong> explicando exatamente o erro cometido.</td>
+            <td>Momento "Aha!" + Aversão à perda (o aluno vê onde está perdendo pontos).<br><span class="mono">ev: aha_moment_reached</span></td>
+          </tr>
+          <tr>
+            <td><strong>Passo 4 (4m30s)</strong><br>Paywall Personalizado + Oferta Black Friday</td>
+            <td><em>"Seu Cronograma Adaptativo SIGA para [Prova] está pronto com 14 blocos prioritários. Desbloqueie o plano completo + Tutor Nino ilimitado com 60% OFF na Black Friday."</em></td>
+            <td>Paywall ancorado no ativo que já pertence ao aluno.<br><span class="mono">ev: paywall_bf_viewed</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2>2. Simulador de Testes A/B de Paywall (Black Friday)</h2>
+        <div class="tabs">
+          <button class="tab-btn active" onclick="showPaywall('A', this)">Variante A: Desbloqueio de Mapa SIGA</button>
+          <button class="tab-btn" onclick="showPaywall('B', this)">Variante B: Garantia de Evolução + Trial 3 Dias</button>
+          <button class="tab-btn" onclick="showPaywall('C', this)">Variante C: Passaporte Vitalício de Conhecimento</button>
+        </div>
+        <div id="pw-box" style="background:#F9FAFB; border:1px solid var(--border); padding:18px;">
+          <div class="mono" style="color:var(--indigo); font-weight:600; margin-bottom:6px;">VARIANTE A (CONTROLE DE ALTA INTENÇÃO — FOCO NO DIAGNÓSTICO)</div>
+          <h3 style="font-size:16px;">"Você já mapeou 12% do seu edital. Não volte a estudar no escuro."</h3>
+          <p style="font-size:13.5px; color:var(--muted); margin:8px 0 12px;">
+            Mostra o gráfico radar do aluno com 2 eixos liberados e 6 eixos com cadeado + comparativo direto: <strong>Cursinho Tradicional (R$ 1.200/ano estudando o que você já sabe)</strong> vs. <strong>Prepwise Black Friday (12x R$ 19,90 ou R$ 197/ano focado 100% nas suas lacunas)</strong>.
+          </p>
+          <div class="mono" style="font-size:11.5px; color:var(--emerald);">Meta principal: Maximizar conversão imediata no Dia 0 (D0 Cash-in).</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>3. Taxonomia de Eventos & Métricas (Dashboard de Coorte)</h2>
+        <p style="font-size:13.5px; color:var(--muted);">
+          Estrutura pronta para instrumentação (PostHog / Mixpanel / Firebase + Meta App Events API para otimização de campanhas por evento de fundo de funil, e não apenas instalação):
+        </p>
+        <div class="code-box">{
+  "funnel_events": [
+    "app_installed",
+    "goal_selected",           // { exam_type: "ENEM" | "CONCURSO", target_role: string }
+    "siga_diag_started",       // { question_count: 6 }
+    "siga_diag_completed",     // { score_tri: number, avg_time_sec: number, gaps_found: number }
+    "nino_feedback_read",      // { topic_id: string, time_spent_sec: number }
+    "paywall_viewed",          // { variant: "A"|"B"|"C", trigger: "post_diagnostic" }
+    "checkout_initiated",      // { plan: "annual_bf" | "monthly", price: number }
+    "subscription_activated"   // Disparado via Server-to-Server para Meta CAPI (Otimização ROAS)
+  ]
+}</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:28px;">
+      <h2>4. Régua de Recuperação Multicanal (Push + WhatsApp + E-mail) — Instalou e Não Assinou</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Janela pós-instalação</th>
+            <th>Canal</th>
+            <th>Mensagem Pronta (Copy Dinâmica com Dados do SIGA)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>+ 2 Horas (D0)</strong></td>
+            <td>Push Notification</td>
+            <td><em>"[Nome], o Nino separou 3 questões rápidas sobre [Tópico com maior erro no Diagnóstico] para você subir +42 pontos na projeção. Leva 3 minutos."</em></td>
+          </tr>
+          <tr>
+            <td><strong>+ 20 Horas (D1)</strong></td>
+            <td>WhatsApp Automático</td>
+            <td><em>"Oi [Nome]! Aqui é da equipe pedagógica da Prepwise. Vi que você fez o mapeamento inicial para [Prova], mas seu cronograma adaptativo do SIGA ficou travado. Liberamos um cupom do lote antecipado de Black Friday que destrava seu plano completo hoje por menos de R$ 0,65/dia: [Link Direto Deep-Link]"</em></td>
+          </tr>
+          <tr>
+            <td><strong>+ 72 Horas (D3)</strong></td>
+            <td>E-mail + Push</td>
+            <td><em>"Seu conhecimento pertence a você, não à prova: veja por que 78% dos candidatos perdem tempo estudando tópicos que já dominam (e o mapa que o SIGA já salvou no seu perfil)."</em></td>
+          </tr>
+          <tr>
+            <td><strong>27 de Novembro</strong></td>
+            <td>Push + WhatsApp (Virada Black Friday)</td>
+            <td><em>"ÚLTIMO DIA: Seu histórico de questões no SIGA já está salvo. Garanta 1 ano inteiro de Prepwise + Tutor Nino ilimitado com o maior desconto do ano antes que o lote encerre às 23h59."</em></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>5. Cronograma de Execução Mão na Massa (Próximos 12 Dias até a Black Friday)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Fase</th>
+            <th>Entregas Executadas Lado a Lado com o Time Prepwise</th>
+            <th>Prazo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Dias 1 a 3</strong></td>
+            <td>Auditoria completa dos eventos atuais do app, configuração do funil de coorte (Install → Diagnóstico SIGA → Paywall → Compra) e mudança da otimização das campanhas de CPI (Instalação) para AEO (App Event Optimization no evento <span class="mono">siga_diag_completed</span> e <span class="mono">subscription_activated</span>).</td>
+            <td>Imediato (72h)</td>
+          </tr>
+          <tr>
+            <td><strong>Dias 4 a 7</strong></td>
+            <td>Implantação do novo fluxo de Paywall Contextual pós-diagnóstico SIGA, setup das 3 variantes A/B de oferta de Black Friday e ativação das réguas automatizadas de Push + WhatsApp para recuperação dos usuários inativos da base atual.</td>
+            <td>Até 21/11</td>
+          </tr>
+          <tr>
+            <td><strong>Dias 8 a 12</strong></td>
+            <td>Abertura do Lote Antecipado Black Friday (Esquenta + Virada em 27/11), acompanhamento diário de CAC/ROAS/Paywall CVR e transferência completa dos playbooks e dashboards para o time interno.</td>
+            <td>22/11 a 28/11</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modal">
+    <div class="modal">
+      <div class="mono" style="color:var(--indigo); font-weight:600;">SPRINT DE IMPLANTAÇÃO IMEDIATA — PREPWISE</div>
+      <h2 style="margin-top:6px;">Iniciar Execução da Operação Black Friday</h2>
+      <p style="font-size:13.5px; color:var(--muted); margin-bottom:16px;">
+        Inclui a implantação mão na massa do rastreamento de eventos, configuração do Paywall A/B pós-diagnóstico SIGA, réguas de recuperação (Push/WhatsApp/E-mail) e campanha de Black Friday (<strong>R$ 450</strong> para início imediato da Sprint 1).
+      </p>
+      <div style="background:#F3F4F6; padding:12px; border:1px solid var(--border); font-family:'IBM Plex Mono',monospace; font-size:12px; margin-bottom:14px; word-break:break-all;">
+        Chave Pix (Aleatória): <strong>0d698c3a-7f75-418e-9d09-6be18fb9a718</strong>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-primary" onclick="copyPix()">Copiar Chave Pix</button>
+        <button class="btn" style="border-color:var(--border); background:#FFF;" onclick="closeModal()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const variants = {
+      A: {
+        tag: "VARIANTE A (CONTROLE DE ALTA INTENÇÃO — FOCO NO DIAGNÓSTICO)",
+        title: '"Você já mapeou 12% do seu edital. Não volte a estudar no escuro."',
+        desc: "Mostra o gráfico radar do aluno com 2 eixos liberados e 6 eixos com cadeado + comparativo direto: Cursinho Tradicional (R$ 1.200/ano estudando o que você já sabe) vs. Prepwise Black Friday (12x R$ 19,90 ou R$ 197/ano focado 100% nas suas lacunas).",
+        goal: "Meta principal: Maximizar conversão imediata no Dia 0 (D0 Cash-in)."
+      },
+      B: {
+        tag: "VARIANTE B (REDUÇÃO DE RISCO — TRIAL GUIADO PELO TUTOR NINO)",
+        title: '"Teste 3 dias grátis com seu Cronograma SIGA + Tutor Nino liberados"',
+        desc: "Exibe linha do tempo transparente: Hoje (Acesso total ao SIGA + Nino) -> Dia 2 (Lembrete por WhatsApp/Push) -> Dia 3 (Início da assinatura anual Black Friday com 60% OFF, cancele com 1 clique).",
+        goal: "Meta principal: Elevar Trial Start Rate para 8%+ entre usuários do ENEM."
+      },
+      C: {
+        tag: "VARIANTE C (ANCORAGEM DE LONGO PRAZO — CONHECIMENTO QUE ACOMPANHA O ALUNO)",
+        title: '"Sua bagagem vale para o ENEM e para qualquer concurso futuro"',
+        desc: "Destaca o pilar 3 do SIGA: todo o mapeamento de proficiência pertence ao CPF do aluno e é reaproveitado automaticamente quando ele migra de uma prova para outra.",
+        goal: "Meta principal: Aumentar participação do Plano Anual/Vitalício para Concurseiros."
+      }
+    };
+    function showPaywall(k, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const v = variants[k];
+      document.getElementById('pw-box').innerHTML =
+        '<div class="mono" style="color:var(--indigo); font-weight:600; margin-bottom:6px;">' + v.tag + '</div>' +
+        '<h3 style="font-size:16px;">' + v.title + '</h3>' +
+        '<p style="font-size:13.5px; color:var(--muted); margin:8px 0 12px;">' + v.desc + '</p>' +
+        '<div class="mono" style="font-size:11.5px; color:var(--emerald);">' + v.goal + '</div>';
+    }
+    let editing = false;
+    function toggleEdit() {
+      editing = !editing;
+      document.getElementById('editable-root').contentEditable = editing ? "true" : "false";
+      document.getElementById('edit-btn').innerText = editing ? "Modo Edição: ATIVO (Clique nos textos)" : "Modo Edição: Desativado";
+    }
+    function openModal() { document.getElementById('modal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+    function copyPix() {
+      navigator.clipboard.writeText("0d698c3a-7f75-418e-9d09-6be18fb9a718");
+      alert("Chave Pix copiada!");
+    }
+  </script>
+</body>
+</html>
