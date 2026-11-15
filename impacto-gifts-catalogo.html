@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impacto Gifts — Catálogo Corporativo de Brindes Personalizados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F7F7F5;
+      --white: #FFFFFF;
+      --ink: #121316;
+      --muted: #5A5E66;
+      --border: #E2E2DC;
+      --accent: #B45309;
+      --wa: #15803D;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+      padding-top: 44px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .mono { font-family: 'IBM Plex Mono', monospace; }
+
+    /* Studio Preview Bar */
+    #preview-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 44px;
+      background: #121316;
+      color: #FFFFFF;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      z-index: 9000;
+    }
+    .pb-btn {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 3px;
+      border: 1px solid #3F3F46;
+      background: #27272A;
+      color: #FFFFFF;
+      cursor: pointer;
+    }
+    .pb-btn.active { background: #F59E0B; color: #121316; border-color: #F59E0B; }
+
+    /* Main Header */
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 44px;
+      z-index: 1000;
+    }
+    .container {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .nav-row {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--ink);
+      color: #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      border-radius: 4px;
+    }
+    .search-input {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      width: 320px;
+      font-family: inherit;
+      font-size: 13.5px;
+      background: var(--bg);
+    }
+    .btn {
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 4px;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: #FFFFFF;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-wa { background: var(--wa); border-color: var(--wa); }
+
+    /* Hero Banner */
+    .hero {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 52px 0;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 32px;
+      align-items: end;
+    }
+    @media (max-width: 860px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .search-input { width: 100%; }
+      .nav-row { height: auto; padding: 14px 0; flex-wrap: wrap; }
+    }
+
+    /* Category Filter Tabs */
+    .filter-bar {
+      padding: 24px 0 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .cat-btn {
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .cat-btn.active {
+      background: var(--ink);
+      color: #FFFFFF;
+      border-color: var(--ink);
+    }
+
+    /* Product Catalog Grid (No prices, no cart — pure B2B catalog!) */
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 22px;
+      padding: 16px 0 80px;
+    }
+    .prod-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: border-color 0.15s;
+    }
+    .prod-card:hover { border-color: var(--ink); }
+    .prod-visual {
+      height: 210px;
+      background: #EFECE6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+    .prod-sku {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10.5px;
+      background: var(--white);
+      padding: 3px 7px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .prod-cat-tag {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .prod-body {
+      padding: 20px;
+    }
+    .prod-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .prod-spec {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .prod-meta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--ink);
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+      margin-bottom: 16px;
+    }
+    body.edit-mode [contenteditable="true"] {
+      outline: 2px dashed var(--accent);
+      outline-offset: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="preview-bar">
+    <span><strong>IMPACTO GIFTS (impactogifts.com.br)</strong> · Protótipo Funcional do Catálogo B2B (Sem Preços / Sem Carrinho)</span>
+    <div style="display:flex; gap:8px;">
+      <button class="pb-btn" id="edit-btn" onclick="toggleEdit()">Ativar Edição de Produtos</button>
+    </div>
+  </div>
+
+  <header>
+    <div class="container nav-row">
+      <a href="#" class="logo">
+        <span class="logo-mark">IG</span>
+        <span>IMPACTO GIFTS</span>
+      </a>
+      <input type="search" id="q" class="search-input" placeholder="Buscar brinde por nome, código ou linha..." oninput="renderCatalog()">
+      <a href="https://wa.me/5521997067144?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20um%20or%C3%A7amento%20de%20brindes%20corporativos%20da%20Impacto%20Gifts." target="_blank" class="btn btn-wa">
+        Atendimento Corporativo (WhatsApp)
+      </a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="mono" style="font-size:11.5px; color:var(--accent); font-weight:600; text-transform:uppercase; margin-bottom:8px;">
+          Catálogo Oficial B2B · Personalização a Laser, Silk HD e DTF UV
+        </div>
+        <h1 style="font-size:clamp(26px, 3.4vw, 38px); font-weight:800; letter-spacing:-0.02em; line-height:1.15; margin-bottom:12px;" contenteditable="false">
+          Brindes Corporativos de Alto Padrão para Marcas, Eventos e Onboarding.
+        </h1>
+        <p style="font-size:15px; color:var(--muted); max-width:640px;" contenteditable="false">
+          Explore nossa linha completa de produtos personalizáveis com a sua marca. Selecione os itens desejados no catálogo abaixo para solicitar cotação direta sem compromisso.
+        </p>
+      </div>
+      <div style="border-left:2px solid var(--ink); padding-left:20px; font-size:13px; color:var(--muted);">
+        <div><strong style="color:var(--ink);">E-mail Comercial:</strong> comercial@impactogifts.com.br</div>
+        <div style="margin-top:4px;"><strong style="color:var(--ink);">Atendimento RJ & Brasil:</strong> (21) 99706-7144</div>
+        <div style="margin-top:4px;"><strong style="color:var(--ink);">Modalidade:</strong> Exclusivo B2B · Sob Cotação</div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="filter-bar" id="cats">
+      <button class="cat-btn active" onclick="setCat('TODOS', this)">Todos os Produtos (12)</button>
+      <button class="cat-btn" onclick="setCat('Kits Onboarding', this)">Kits Onboarding & VIP</button>
+      <button class="cat-btn" onclick="setCat('Térmicos & Inox', this)">Garrafas & Copos Térmicos</button>
+      <button class="cat-btn" onclick="setCat('Tecnologia', this)">Tecnologia & Escritório</button>
+      <button class="cat-btn" onclick="setCat('Eco & Papelaria', this)">Linha Eco & Cadernos</button>
+      <button class="cat-btn" onclick="setCat('Bolsas & Mochilas', this)">Mochilas & Necessaires</button>
+    </div>
+
+    <div class="catalog-grid" id="grid"></div>
+  </main>
+
+  <footer style="background:#FFFFFF; border-top:1px solid var(--border); padding:32px 0; font-size:13px; color:var(--muted);">
+    <div class="container" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+      <span><strong>Impacto Gifts</strong> · Catálogo de Brindes Corporativos · Rio de Janeiro / RJ</span>
+      <span>comercial@impactogifts.com.br · (21) 99706-7144</span>
+    </div>
+  </footer>
+
+  <script>
+    const PRODUCTS = [
+      { sku: "IG-101", cat: "Kits Onboarding", title: "Kit Boas-Vindas Executivo 4 Peças", spec: "Caixa rígida personalizada com caderno capa dura em couro ecológico, garrafa térmica inox 500ml, caneta metálica e chaveiro.", engrave: "Gravação a Laser + Silk 1 a 4 cores | Pedido mín.: 20 kits" },
+      { sku: "IG-102", cat: "Térmicos & Inox", title: "Garrafa Térmica Inox Parede Dupla 650ml", spec: "Aço inox 304 com isolamento a vácuo (conserva 12h frio / 8h quente), pintura eletrostática fosca e alça ergonômica.", engrave: "Gravação a Laser ou UV Digital 360° | Cores: Preto, Azul, Branco" },
+      { sku: "IG-103", cat: "Térmicos & Inox", title: "Copo Térmico Inox com Tampa e Abridor 473ml", spec: "Parede dupla em inox com acabamento texturizado resistente a riscos, tampa com vedação em silicone e abridor integrado.", engrave: "Gravação a Laser Indelével | Pedido mín.: 30 un." },
+      { sku: "IG-104", cat: "Eco & Papelaria", title: "Caderno Corporativo Hardcover Soft Touch A5", spec: "192 páginas pautadas em papel marfim 80g/m², fita marcadora, elástico de fechamento e envelope interno para documentos.", engrave: "Baixo Relevo (Hot Stamping) ou DTF UV | Cores sob consulta" },
+      { sku: "IG-105", cat: "Tecnologia", title: "Powerbank Slim Indução & Cabo Integrado 10.000mAh", spec: "Carregador portátil homologado com carregamento sem fio (MagSafe/Qi), visor LED de carga e acabamento emborrachado.", engrave: "Personalização UV Colorida ou Laser Luminoso" },
+      { sku: "IG-106", cat: "Bolsas & Mochilas", title: "Mochila Executiva Impermeável p/ Notebook 15.6\"", spec: "Tecido Oxford de alta densidade, compartimento acolchoado antifurto, saída USB lateral e alça para acoplar em mala de viagem.", engrave: "Plaquinha Metálica Gravada a Laser ou Silk HD" },
+      { sku: "IG-107", cat: "Kits Onboarding", title: "Kit Café & Escritório Premium", spec: "Caneca térmica inox 350ml com tampa + moleskine executivo A5 + caneta metal touch em estojo presenteável.", engrave: "Personalização individual com nome do colaborador opcional" },
+      { sku: "IG-108", cat: "Eco & Papelaria", title: "Kit Ecológico Fibra de Bambu & Kraft", spec: "Bloco de anotações em capa de bambu natural, caneta ecológica com detalhes cromados e copo reutilizável 450ml.", engrave: "Gravação a Laser no Bambu + Tampografia" },
+      { sku: "IG-109", cat: "Tecnologia", title: "Hub USB-C 5 em 1 em Alumínio Anodizado", spec: "Expansor corporativo com porta HDMI 4K, USB 3.0 de alta velocidade e Power Delivery 100W para notebooks.", engrave: "Gravação a Laser de Precisão no Alumínio" },
+      { sku: "IG-110", cat: "Bolsas & Mochilas", title: "Necessaire Organizadora Viagem Impermeável", spec: "Poliéster acetinado impermeável com divisórias internas em tela, gancho metálico e alça de mão reforçada.", engrave: "Etiqueta Sintética em Baixo Relevo ou Silk" },
+      { sku: "IG-111", cat: "Térmicos & Inox", title: "Garrafa Térmica Digital com Termômetro LED 500ml", spec: "Visor touch na tampa indicando a temperatura exata da bebida e infusor interno em aço inox para chá ou café.", engrave: "Gravação a Laser Vertical | Alta durabilidade" },
+      { sku: "IG-112", cat: "Kits Onboarding", title: "Kit Fim de Ano / Clientes VIP (Vinho & Acessórios)", spec: "Estojo em madeira/couro sintético para 1 garrafa com saca-rolhas sommelier, anel corta-gotas e tampa a vácuo.", engrave: "Gravação a Laser na Tampa do Estojo e Acessórios" }
+    ];
+
+    let activeCat = "TODOS";
+    let editOn = false;
+
+    function setCat(cat, btn) {
+      activeCat = cat;
+      document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderCatalog();
+    }
+
+    function renderCatalog() {
+      const q = document.getElementById("q").value.toLowerCase().trim();
+      const filtered = PRODUCTS.filter(p => {
+        const matchCat = activeCat === "TODOS" || p.cat === activeCat;
+        const matchQ = !q || p.title.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q) || p.spec.toLowerCase().includes(q);
+        return matchCat && matchQ;
+      });
+
+      document.getElementById("grid").innerHTML = filtered.map(p => {
+        const waMsg = encodeURIComponent(`Olá, equipe da Impacto Gifts! Gostaria de solicitar uma cotação corporativa para o item: [${p.sku}] ${p.title}.`);
+        return `
+          <article class="prod-card">
+            <div>
+              <div class="prod-visual">
+                <span class="prod-sku">${p.sku}</span>
+                <span class="prod-cat-tag">${p.cat}</span>
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#121316" stroke-width="1.4">
+                  <rect x="3" y="8" width="18" height="13" rx="1"/>
+                  <path d="M12 8v13M3 12h18M12 8c-1.5-3-4.5-3-4.5-1S9.5 8 12 8zm0 0c1.5-3 4.5-3 4.5-1S14.5 8 12 8z"/>
+                </svg>
+                <span class="mono" style="font-size:11px; color:var(--muted); margin-top:10px;">Foto do Produto · Substituível</span>
+              </div>
+              <div class="prod-body">
+                <h3 class="prod-title" contenteditable="${editOn}">${p.title}</h3>
+                <p class="prod-spec" contenteditable="${editOn}">${p.spec}</p>
+                <div class="prod-meta" contenteditable="${editOn}">${p.engrave}</div>
+              </div>
+            </div>
+            <div style="padding:0 20px 20px;">
+              <a href="https://wa.me/5521997067144?text=${waMsg}" target="_blank" class="btn" style="width:100%; justify-content:center;">
+                Solicitar Orçamento deste Item →
+              </a>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function toggleEdit() {
+      editOn = !editOn;
+      document.body.classList.toggle("edit-mode", editOn);
+      const btn = document.getElementById("edit-btn");
+      btn.classList.toggle("active", editOn);
+      btn.innerText = editOn ? "Salvar Catálogo" : "Ativar Edição de Produtos";
+      renderCatalog();
+    }
+
+    renderCatalog();
+  </script>
+</body>
+</html>
