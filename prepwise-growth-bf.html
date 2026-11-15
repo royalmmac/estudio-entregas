@@ -168,11 +168,10 @@
     "app_installed",
     "goal_selected",           // { exam_type: "ENEM" | "CONCURSO", target_role: string }
     "siga_diag_started",       // { question_count: 6 }
-    "siga_diag_completed",     // { score_tri: number, avg_time_sec: number, gaps_found: number }
-    "nino_feedback_read",      // { topic_id: string, time_spent_sec: number }
-    "paywall_viewed",          // { variant: "A"|"B"|"C", trigger: "post_diagnostic" }
-    "checkout_initiated",      // { plan: "annual_bf" | "monthly", price: number }
-    "subscription_activated"   // Disparado via Server-to-Server para Meta CAPI (Otimização ROAS)
+    "siga_diag_completed",     // { score_tri: number, [PARÂMETROS DE ATRIBUIÇÃO AEO BLOQUEADOS NA PRÉVIA] }
+    "nino_feedback_read",      // [MAPEAMENTO DE ENGAJAMENTO DO TUTOR IA OMITIDO NA PRÉVIA]
+    "paywall_viewed",          // [REGRAS DE GATILHO DINÂMICO POR COORTE OMITIDAS NA PRÉVIA]
+    "subscription_activated"   // [PAYLOAD SERVER-TO-SERVER META CAPI / ROAS LIBERADO NA SPRINT 1]
   ]
 }</div>
       </div>
@@ -195,9 +194,7 @@
             <td><em>"[Nome], o Nino separou 3 questões rápidas sobre [Tópico com maior erro no Diagnóstico] para você subir +42 pontos na projeção. Leva 3 minutos."</em></td>
           </tr>
           <tr>
-            <td><strong>+ 20 Horas (D1)</strong></td>
-            <td>WhatsApp Automático</td>
-            <td><em>"Oi [Nome]! Aqui é da equipe pedagógica da Prepwise. Vi que você fez o mapeamento inicial para [Prova], mas seu cronograma adaptativo do SIGA ficou travado. Liberamos um cupom do lote antecipado de Black Friday que destrava seu plano completo hoje por menos de R$ 0,65/dia: [Link Direto Deep-Link]"</em></td>
+            <td><strong>+ 20 Horas (D1)</strong></td><td>WhatsApp Automático</td><td><em>"Oi [Nome]! Aqui é da equipe pedagógica da Prepwise. Vi que você fez o mapeamento inicial..." <strong>[COPY COMPLETA DE RECUPERAÇÃO D1 + DEEP-LINK DINÂMICO BLOQUEADOS NA PRÉVIA]</strong></em></td>
           </tr>
           <tr>
             <td><strong>+ 72 Horas (D3)</strong></td>
@@ -205,9 +202,7 @@
             <td><em>"Seu conhecimento pertence a você, não à prova: veja por que 78% dos candidatos perdem tempo estudando tópicos que já dominam (e o mapa que o SIGA já salvou no seu perfil)."</em></td>
           </tr>
           <tr>
-            <td><strong>27 de Novembro</strong></td>
-            <td>Push + WhatsApp (Virada Black Friday)</td>
-            <td><em>"ÚLTIMO DIA: Seu histórico de questões no SIGA já está salvo. Garanta 1 ano inteiro de Prepwise + Tutor Nino ilimitado com o maior desconto do ano antes que o lote encerre às 23h59."</em></td>
+            <td><strong>27 de Novembro</strong></td><td>Push + WhatsApp (Virada Black Friday)</td><td><em><strong>[SEQUÊNCIA DE FECHAMENTO DE LOTE BLACK FRIDAY (3 DISPAROS D-DAY) BLOQUEADA NA PRÉVIA — LIBERADA NA SPRINT 1]</strong></em></td>
           </tr>
         </tbody>
       </table>
@@ -305,5 +300,92 @@
       alert("Chave Pix copiada!");
     }
   </script>
+
+<!-- STUDIO IP PROTECTION SHIELD -->
+<style id="studio-ip-shield-css">
+  body:not(.studio-unlocked) {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+  }
+  @media print {
+    body:not(.studio-unlocked) {
+      display: none !important;
+    }
+  }
+  #studio-ip-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #111827;
+    color: #F9FAFB;
+    border: 1px solid #374151;
+    padding: 12px 18px;
+    font-family: 'IBM Plex Mono', monospace, sans-serif;
+    font-size: 12px;
+    z-index: 99999;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    display: none;
+    max-width: 380px;
+    line-height: 1.45;
+  }
+</style>
+<div id="studio-ip-toast">
+  <strong>Modo de Demonstração Protegido</strong><br>
+  A cópia de textos, especificações e exportação dos arquivos finais são liberadas imediatamente após a confirmação do projeto.
+</div>
+<script id="studio-ip-shield-js">
+  (function() {
+    if (location.search.includes("unlock=STUDIO-2026") || location.search.includes("key=NTRACK-2026-VIP") || location.search.includes("key=HSM-2026-PRO")) {
+      document.body.classList.add("studio-unlocked", "unlocked");
+      return;
+    }
+    var toastTimer = null;
+    function showIpToast() {
+      var t = document.getElementById("studio-ip-toast");
+      if (!t) return;
+      t.style.display = "block";
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function() { t.style.display = "none"; }, 3200);
+    }
+    document.addEventListener("contextmenu", function(e) {
+      if (!document.body.classList.contains("studio-unlocked")) {
+        e.preventDefault();
+        showIpToast();
+      }
+    });
+    document.addEventListener("copy", function(e) {
+      if (!document.body.classList.contains("studio-unlocked")) {
+        e.preventDefault();
+        showIpToast();
+      }
+    });
+    document.addEventListener("cut", function(e) {
+      if (!document.body.classList.contains("studio-unlocked")) {
+        e.preventDefault();
+        showIpToast();
+      }
+    });
+    document.addEventListener("dragstart", function(e) {
+      if (!document.body.classList.contains("studio-unlocked")) {
+        e.preventDefault();
+      }
+    });
+    document.addEventListener("keydown", function(e) {
+      if (document.body.classList.contains("studio-unlocked")) return;
+      var k = (e.key || "").toLowerCase();
+      if ((e.ctrlKey || e.metaKey) && (k === "c" || k === "u" || k === "s" || k === "p" || k === "a")) {
+        e.preventDefault();
+        showIpToast();
+      }
+      if (e.key === "F12" || (e.ctrlKey && e.shiftKey && (k === "i" || k === "j" || k === "c"))) {
+        e.preventDefault();
+        showIpToast();
+      }
+    });
+  })();
+</script>
+
 </body>
 </html>
